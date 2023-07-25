@@ -6,8 +6,7 @@ import 'element-plus/dist/index.css'
 //@ts-expect-error  防止打包时候出错
 import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
 
-
-const app=createApp(App)
+const app = createApp(App)
 
 app.use(ElementPlus, {
   locale: zhCn,
