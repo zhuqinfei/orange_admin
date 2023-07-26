@@ -1,8 +1,8 @@
 <template>
   <div>
-    <el-button type="primary" size="default" :icon="Plus">主要按钮</el-button>
-    <SvgIcon name="phone" color="pink" width="100px" height="100px"></SvgIcon>
-    <SvgIcon name="phone" color="black"></SvgIcon>
+    <div>
+      <h1>测试代码</h1>
+    </div>
   </div>
 </template>
 
@@ -10,4 +10,10 @@
 import { Plus } from '@element-plus/icons-vue'
 </script>
 
-<style scoped></style>
+<style scoped lang="scss">
+div{
+  h1{
+    color:$color;
+  }
+}
+</style>
