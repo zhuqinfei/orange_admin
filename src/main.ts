@@ -1,3 +1,5 @@
+// noinspection TypeScriptCheckImport
+
 import { createApp } from 'vue'
 import './style.css'
 import App from '@/App.vue'
@@ -20,16 +22,5 @@ app.use(gloalComponent)
 //引入模板的全局样式
 import '@/styles/index.scss'
 
-//测试代码。测试假的接口能否使用
-import axios from 'axios'
-//登录接口
-axios({
-  url: '/api/user/login',
-  method: 'post',
-  data: {
-    username: 'admin',
-    password: '11111',
-  },
-})
 
 app.mount('#app')
