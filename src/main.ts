@@ -9,17 +9,24 @@ import 'element-plus/dist/index.css'
 import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
 //引入自定义插件对象:注册整个项目全局组件
 import gloalComponent from '@/components'
+//svg插件需要配置代码
+import 'virtual:svg-icons-register'
+//引入模板的全局样式
+import '@/styles/index.scss'
+//引入路由
+import router from '@/router/index'
 
 const app = createApp(App)
+//注册路由模板
+app.use(router)
+
 
 app.use(ElementPlus, {
   locale: zhCn,
 })
-//svg插件需要配置代码
-import 'virtual:svg-icons-register'
 //安装自定义插件
 app.use(gloalComponent)
-//引入模板的全局样式
-import '@/styles/index.scss'
+//注册路由模板
+app.use(router)
 
 app.mount('#app')
