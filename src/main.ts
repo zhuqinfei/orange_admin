@@ -15,11 +15,12 @@ import 'virtual:svg-icons-register'
 import '@/styles/index.scss'
 //引入路由
 import router from '@/router/index'
+//引入仓库
+import pinia from './store'
 
 const app = createApp(App)
 //注册路由模板
 app.use(router)
-
 
 app.use(ElementPlus, {
   locale: zhCn,
@@ -28,5 +29,7 @@ app.use(ElementPlus, {
 app.use(gloalComponent)
 //注册路由模板
 app.use(router)
+//安装仓库
+app.use(pinia)
 
 app.mount('#app')
