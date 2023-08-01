@@ -22,7 +22,13 @@
             ></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button :loading="loading" class="login_btn" type="primary" size="default" @click="login">
+            <el-button
+              :loading="loading"
+              class="login_btn"
+              type="primary"
+              size="default"
+              @click="login"
+            >
               登录
             </el-button>
           </el-form-item>
@@ -34,21 +40,21 @@
 
 <script setup lang="ts">
 import { User, Lock } from '@element-plus/icons-vue'
-import { reactive,ref } from 'vue'
-import { ElNotification } from 'element-plus';
-import { useRouter, useRoute } from 'vue-router';
+import { reactive, ref } from 'vue'
+import { ElNotification } from 'element-plus'
+import { useRouter, useRoute } from 'vue-router'
 //引入用户相关的小仓库
-import useUserStore from "@/store/modules/user";
-let useStore = useUserStore();
+import useUserStore from '@/store/modules/user'
+let useStore = useUserStore()
 //获取路由器
-let $router = useRouter();
+let $router = useRouter()
 //路由对象
-let $route = useRoute();
+let $route = useRoute()
 
 //收集账号与密码数据
 let loginForm = reactive({ username: 'admin', password: '111111' })
 //定义变量控制按钮加载效果
-let loading = ref(false);
+let loading = ref(false)
 
 //登录按钮的回调
 const login = async () => {
@@ -80,7 +86,6 @@ const login = async () => {
     })
   }
 }
-
 </script>
 
 <style lang="scss" scoped>
