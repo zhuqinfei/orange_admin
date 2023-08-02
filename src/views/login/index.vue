@@ -4,16 +4,17 @@
     <el-row>
       <el-col :span="12" :xs="0"></el-col>
       <el-col :span="12" :xs="24">
-        <el-form class="login_form">
+        <!--登录表单-->
+        <el-form class="login_form" :model="loginForm" :rules="rules" ref="loginForms">
           <h1>Hello</h1>
           <h2>欢迎来到橙子运营平台</h2>
-          <el-form-item>
+          <el-form-item prop="username">
             <el-input
               :prefix-icon="User"
               v-model="loginForm.username"
             ></el-input>
           </el-form-item>
-          <el-form-item>
+          <el-form-item prop="password">
             <el-input
               type="password"
               :prefix-icon="Lock"
@@ -44,7 +45,7 @@ import { reactive, ref } from 'vue'
 import { ElNotification } from 'element-plus'
 import { useRouter, useRoute } from 'vue-router'
 //引入获取当前时间的函数
-import { getTime } from '@/utils/time';
+import { getTime } from '@/utils/time'
 //引入用户相关的小仓库
 import useUserStore from '@/store/modules/user'
 let useStore = useUserStore()
@@ -52,6 +53,8 @@ let useStore = useUserStore()
 let $router = useRouter()
 //路由对象
 let $route = useRoute()
+//获取el-form组件
+let loginForms = ref();
 
 //收集账号与密码数据
 let loginForm = reactive({ username: 'admin', password: '111111' })
@@ -60,6 +63,8 @@ let loading = ref(false)
 
 //登录按钮的回调
 const login = async () => {
+  // 保证全部表单相校验通过再发请求
+  await loginForms.value.validate();
   //按钮加载效果
   loading.value = true
   //点击登录按钮以后干什么
@@ -75,7 +80,7 @@ const login = async () => {
     ElNotification({
       type: 'success',
       message: '欢迎回来',
-      title: `HI,${getTime()}好`
+      title: `HI,${getTime()}好`,
     })
     //登录成功,加载效果也消失
     loading.value = false
@@ -88,6 +93,25 @@ const login = async () => {
       message: (error as Error).message,
     })
   }
+}
+
+//定义表单校验需要配置对象
+const rules = {
+  //规则对象属性:
+  //required,代表这个字段务必要校验的
+  //min:文本长度至少多少位
+  //max:文本长度最多多少位
+  //message:错误的提示信息
+  //trigger:触发校验表单的时机 change->文本发生变化触发校验,blur:失去焦点的时候触发校验规则
+  username: [
+    { required: true, message: 'Please input Activity name', trigger: 'blur' },
+    { required: true, min: 6, max: 10, message: '账号长度至少六位', trigger: 'change' }
+    // { trigger: 'change', validator: validatorUserName }
+  ],
+  password: [
+    { required: true, min: 6, max: 15, message: '密码长度至少6位', trigger: 'change' }
+    // { trigger: 'change', validator: validatorPassword }
+  ]
 }
 </script>
 
