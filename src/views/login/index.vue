@@ -80,7 +80,7 @@ const login = async () => {
     //也可以书写.then语法
     await useStore.userLogin(loginForm)
     //编程式导航跳转到展示数据的首页
-    $router.push('/login')
+    $router.push('/')
     //登录成功的提示信息
     ElNotification({
       type: 'success',
@@ -101,23 +101,21 @@ const login = async () => {
 }
 //自定义校验规则函数
 const validatorUserName = (rule: any, value: any, callback: any) => {
-  console.log(rule)
-  console.log(value)
   //rule:即为校验规则对象
   //value:即为表单元素文本内容
   //函数:如果符合条件callBack放行通过即为
   //如果不符合条件callBack方法,注入错误提示信息
   if (value.length >= 5) {
-    callback();
+    callback()
   } else {
-    callback(new Error('账号长度至少五位'));
+    callback(new Error('账号长度至少五位'))
   }
 }
 const validatorPassword = (rule: any, value: any, callback: any) => {
   if (value.length >= 6) {
-    callback();
+    callback()
   } else {
-    callback(new Error('密码长度至少六位'));
+    callback(new Error('密码长度至少六位'))
   }
 }
 
@@ -132,11 +130,11 @@ const rules = {
   username: [
     // { required: true, message: 'Please input Activity name', trigger: 'blur' },
     // { required: true, min: 6, max: 10, message: '账号长度至少六位', trigger: 'change',},
-    { trigger: 'change', validator: validatorUserName }
+    { trigger: 'change', validator: validatorUserName },
   ],
   password: [
     // { required: true, min: 6, max: 15, message: '密码长度至少6位', trigger: 'change',},
-    { trigger: 'change', validator: validatorPassword }
+    { trigger: 'change', validator: validatorPassword },
   ],
 }
 </script>
