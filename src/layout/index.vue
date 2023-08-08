@@ -9,7 +9,7 @@
       <el-scrollbar class="scrollbar">
         <!--菜单组件-->
         <el-menu background-color="#001529" text-color="white">
-         <Menu :menuList="userStore.menuRoutes"></Menu>
+          <Menu :menuList="userStore.menuRoutes"></Menu>
         </el-menu>
       </el-scrollbar>
     </div>
@@ -28,9 +28,8 @@ import Logo from './logo/index.vue'
 //引入菜单组件
 import Menu from './menu/index.vue'
 //获取用户相关的小仓库
-import useUserStore from '@/store/modules/user';
-let userStore = useUserStore();
-
+import useUserStore from '@/store/modules/user'
+let userStore = useUserStore()
 </script>
 
 <style lang="scss" scoped>
