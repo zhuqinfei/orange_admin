@@ -1,3 +1,4 @@
+<!--suppress ALL -->
 <template>
   <!-- 路由组件出口的位置 -->
   <router-view v-slot="{ Component }">
@@ -9,6 +10,12 @@
 </template>
 
 <script setup lang="ts"></script>
+
+<script lang="ts">
+export default {
+  name: "Main"
+}
+</script>
 
 <style scoped lang="scss">
 .fade-enter-from {
