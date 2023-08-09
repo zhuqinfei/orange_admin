@@ -8,17 +8,20 @@
       <!--滚动组件-->
       <el-scrollbar class="scrollbar">
         <!--菜单组件-->
-        <el-menu background-color="#001529"
-                 text-color="white"
-                 active-text-color="yellowgreen"
-                 :default-active="$route.path"
+        <el-menu
+          background-color="#001529"
+          text-color="white"
+          active-text-color="yellowgreen"
+          :default-active="$route.path"
         >
           <Menu :menuList="userStore.menuRoutes"></Menu>
         </el-menu>
       </el-scrollbar>
     </div>
     <!-- 顶部导航 -->
-    <div class="layout_tabbar"></div>
+    <div class="layout_tabbar">
+      <Tabbar></Tabbar>
+    </div>
     <!-- 内容展示区域 -->
     <div class="layout_main">
       <Main></Main>
@@ -27,6 +30,8 @@
 </template>
 
 <script setup lang="ts">
+//引入顶部tabbar组件
+import Tabbar from './tabbar/index.vue';
 //获取路由对象
 import { useRoute } from 'vue-router'
 //右侧内容展示区域
@@ -39,7 +44,7 @@ import Menu from './menu/index.vue'
 import useUserStore from '@/store/modules/user'
 let userStore = useUserStore()
 //获取路由对象
-let $route = useRoute();
+let $route = useRoute()
 </script>
 
 <style lang="scss" scoped>
@@ -47,6 +52,7 @@ let $route = useRoute();
   width: 100%;
   height: 100vh;
   .layout_slider {
+    color: white;
     width: $base-menu-width;
     height: 100vh;
     background: $base-menu-background;
@@ -63,7 +69,6 @@ let $route = useRoute();
     position: fixed;
     width: calc(100% - #{$base-menu-width});
     height: $base-tabbar-height;
-    background: cyan;
     top: 0;
     left: $base-menu-width;
   }
