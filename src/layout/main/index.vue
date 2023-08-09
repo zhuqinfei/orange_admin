@@ -17,7 +17,7 @@
 }
 
 .fade-enter-active {
-  transition: all .3s;
+  transition: all 0.3s;
 }
 
 .fade-enter-to {

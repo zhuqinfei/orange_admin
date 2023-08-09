@@ -21,7 +21,7 @@ export const constantRoute = [
       hidden: false,
       icon: 'Avatar',
     },
-    redirect:'/home',
+    redirect: '/home',
     children: [
       {
         path: '/home',

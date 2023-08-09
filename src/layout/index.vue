@@ -8,7 +8,11 @@
       <!--滚动组件-->
       <el-scrollbar class="scrollbar">
         <!--菜单组件-->
-        <el-menu background-color="#001529" text-color="white">
+        <el-menu background-color="#001529"
+                 text-color="white"
+                 active-text-color="yellowgreen"
+                 :default-active="$route.path"
+        >
           <Menu :menuList="userStore.menuRoutes"></Menu>
         </el-menu>
       </el-scrollbar>
@@ -23,8 +27,10 @@
 </template>
 
 <script setup lang="ts">
+//获取路由对象
+import { useRoute } from 'vue-router'
 //右侧内容展示区域
-import Main from './main/index.vue';
+import Main from './main/index.vue'
 //引入左侧菜单logo子组件
 import Logo from './logo/index.vue'
 //引入菜单组件
@@ -32,6 +38,8 @@ import Menu from './menu/index.vue'
 //获取用户相关的小仓库
 import useUserStore from '@/store/modules/user'
 let userStore = useUserStore()
+//获取路由对象
+let $route = useRoute();
 </script>
 
 <style lang="scss" scoped>
