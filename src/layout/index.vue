@@ -17,12 +17,14 @@
     <div class="layout_tabbar"></div>
     <!-- 内容展示区域 -->
     <div class="layout_main">
-      <p style="height: 1000000px"></p>
+      <Main></Main>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+//右侧内容展示区域
+import Main from './main/index.vue';
 //引入左侧菜单logo子组件
 import Logo from './logo/index.vue'
 //引入菜单组件
