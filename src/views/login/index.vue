@@ -80,7 +80,9 @@ const login = async () => {
     //也可以书写.then语法
     await useStore.userLogin(loginForm)
     //编程式导航跳转到展示数据的首页
-    $router.push('/')
+    //判断登录的时候,路由路径当中是否有query参数，如果有就往query参数挑战，没有跳转到首页
+    let redirect: any = $route.query.redirect;
+    $router.push({ path: redirect || '/' });
     //登录成功的提示信息
     ElNotification({
       type: 'success',

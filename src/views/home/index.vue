@@ -1,7 +1,7 @@
 <!--suppress ALL -->
 <template>
   <div>
-    <h1>home页面{{userStore.username}}</h1>
+    <h1>home页面{{ userStore.username }}</h1>
   </div>
 </template>
 
@@ -13,7 +13,6 @@ let userStore = useUserStore()
 onMounted(() => {
   userStore.userInfo()
 })
-
 </script>
 
 <style scoped lang="scss"></style>
