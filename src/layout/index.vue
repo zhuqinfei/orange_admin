@@ -4,7 +4,6 @@
     <!-- 左侧菜单 -->
     <div
       class="layout_slider"
-      :class="{ fold: LayOutSettingStore.fold ? true : false }"
     >
       <Logo></Logo>
       <!--展示菜单-->
@@ -83,9 +82,7 @@ export default {
         border-right: none;
       }
     }
-    &.fold {
-      width: $base-menu-min-width;
-    }
+   
   }
   .layout_tabbar {
     position: fixed;
