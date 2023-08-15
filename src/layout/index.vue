@@ -2,9 +2,7 @@
 <template>
   <div class="layout_container">
     <!-- 左侧菜单 -->
-    <div
-      class="layout_slider"
-    >
+    <div class="layout_slider">
       <Logo></Logo>
       <!--展示菜单-->
       <!--滚动组件-->
@@ -82,7 +80,6 @@ export default {
         border-right: none;
       }
     }
-   
   }
   .layout_tabbar {
     position: fixed;

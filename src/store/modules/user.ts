@@ -3,9 +3,7 @@
 
 import { defineStore } from 'pinia'
 //引入接口
-import { reqLogin, reqUserInfo } from '@/api/user'
-//引入数据类型
-import type { loginFormData, loginResponseData } from '@/api/user/type'
+import { reqLogin, reqUserInfo,reqLogout } from '@/api/user'
 import type { useState } from './types/type'
 //引入操作本地存储的工具方法
 import { SET_TOKEN, GET_TOKEN, REMOVE_TOKEN } from '@/utils/token'
@@ -25,19 +23,20 @@ const useUserStore = defineStore('User', {
   //处理异步|逻辑地方
   actions: {
     //用户登录的方法
-    async userLogin(data: loginFormData) {
+    async userLogin(data: any) {
       //登录请求
-      const result: loginResponseData = await reqLogin(data)
+      const result: any= await reqLogin(data)
+      console.log(result)
       if (result.code == 200) {
         //pinia仓库存储token
         //由于pinia|vuex存储数据其实利用js对象
-        this.token = result.data.token as string
+        this.token = result.data as string
         //本地存储持久化存储一份
-        SET_TOKEN(result.data.token as string)
+        SET_TOKEN(result.data as string)
         //保证当前async函数返回一个成功的promise函数
         return 'ok'
       } else {
-        return Promise.reject(new Error(result.data.message))
+        return Promise.reject(new Error(result.data))
       }
     },
 
@@ -46,22 +45,28 @@ const useUserStore = defineStore('User', {
       //获取用户信息进行存储
       let result = await reqUserInfo()
       if (result.code == 200) {
-        this.username = result.data.checkUser.username
-        this.avatar = result.data.checkUser.avatar
+        this.username = result.data.name
+        this.avatar = result.data.avatar
         return 'ok'
-      }else{
-        return Promise.reject('获取用户信息失败')
+      } else {
+        return Promise.reject(new Error(result.message))
       }
     },
 
     //退出登录
-    userLogout() {
-      //当前没有mock接口（不做）：服务器数据token失效
-      //本地数据清空
-      this.token = ''
-      this.username = ''
-      this.avatar = ''
-      REMOVE_TOKEN()
+    async userLogout() {
+      //退出登录请求
+      let result=await reqLogout()
+      if (result.code == 200) {
+        //本地数据清空
+        this.token = ''
+        this.username = ''
+        this.avatar = ''
+        REMOVE_TOKEN()
+        return 'ok'
+      } else {
+        return Promise.reject(new Error(result.message))
+      }
     },
   },
   getters: {},
