@@ -1,6 +1,10 @@
 //统一管理项目用户相关的接口
 import request from '@/utils/request'
-import type {loginFormData, loginResponseData, userInfoReponseData,} from './type'
+import type {
+  loginFormData,
+  loginResponseData,
+  userInfoReponseData,
+} from './type'
 
 //项目用户相关的请求地址
 enum API {
