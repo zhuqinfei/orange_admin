@@ -12,11 +12,25 @@
       ---width：设置这一列的宽度
       ---align：设置这一列对齐方式
      -->
-    <el-table style="margin: 10px 0px" border>
-      <el-table-column label="序号" width="80px" align="center"></el-table-column>
-      <el-table-column label="品牌名称"></el-table-column>
-      <el-table-column label="品牌LOGO"></el-table-column>
-      <el-table-column label="品牌操作"></el-table-column>
+    <el-table style="margin: 10px 0px" border :data="trademarkArr">
+      <el-table-column
+        label="序号"
+        width="80px"
+        align="center"
+        type="index"
+      ></el-table-column>
+      <el-table-column label="品牌名称" prop="tmName"></el-table-column>
+      <el-table-column label="品牌LOGO">
+        <template #="{ row, $index }">
+          <img :src="row.logoUrl" style="width:100px;height: 100px;">
+        </template>
+      </el-table-column>
+      <el-table-column label="品牌操作">
+        <template #="{ row, $index }">
+          <el-button type="primary" size="small" icon="Edit"></el-button>
+          <el-button type="primary" size="small" icon="Delete"></el-button>
+        </template>
+      </el-table-column>
     </el-table>
     <!-- 分页器组件 -->
     <!--
@@ -28,23 +42,47 @@
       ---layout：分页器6个子组件布局的调整 "->"把后面的子组件顶到右侧
      -->
     <el-pagination
-        v-model:current-page="pageNo"
-        v-model:page-size="limit"
-        :page-sizes="[3, 5, 7, 9]"
-        :background="true"
-        layout=" prev, pager, next, jumper,->,total, sizes,"
-        :total="400"
+      v-model:current-page="pageNo"
+      v-model:page-size="limit"
+      :page-sizes="[3, 5, 7, 9]"
+      :background="true"
+      layout=" prev, pager, next, jumper,->,total, sizes,"
+      :total="total"
     />
   </el-card>
 </template>
 
 <script setup lang="ts">
+import { reqHasTrademark } from '@/api/product/trademark'
 //引入组合式API函数
-import { ref } from 'vue'
+import { ref,onMounted } from 'vue'
 //当前页码
 let pageNo = ref<number>(1)
 //每一页展示的数据
 let limit = ref<number>(3)
+//存储已有品牌数据总数
+let total = ref<number>(0)
+//存储已有品牌的数据
+let trademarkArr = ref<any>([])
+
+//获取已有品牌的接口封装为一个函数:在任何情况下向获取数据,调用次函数即可
+const getHasTrademark = async (pager = 1) => {
+  //当前页码
+  pageNo.value = pager
+  let result = await reqHasTrademark(pageNo.value, limit.value)
+  if (result.code == 200) {
+    //存储已有品牌总个数
+    total.value = result.data.total
+    trademarkArr.value = result.data.records
+  }
+}
+
+//组件挂载完毕钩子---发一次请求,获取第一页、一页三个已有品牌数据
+onMounted(() => {
+  getHasTrademark()
+})
+
+
 </script>
 
 <style lang="scss" scoped></style>
