@@ -22,7 +22,7 @@
       <el-table-column label="品牌名称" prop="tmName"></el-table-column>
       <el-table-column label="品牌LOGO">
         <template #="{ row, $index }">
-          <img :src="row.logoUrl" style="width:100px;height: 100px;">
+          <img :src="row.logoUrl" style="width: 100px; height: 100px" />
         </template>
       </el-table-column>
       <el-table-column label="品牌操作">
@@ -53,9 +53,10 @@
 </template>
 
 <script setup lang="ts">
+import type {Records,TradeMarkResponseData} from '@/api/product/trademark/type'
 import { reqHasTrademark } from '@/api/product/trademark'
 //引入组合式API函数
-import { ref,onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
 //当前页码
 let pageNo = ref<number>(1)
 //每一页展示的数据
@@ -63,13 +64,13 @@ let limit = ref<number>(3)
 //存储已有品牌数据总数
 let total = ref<number>(0)
 //存储已有品牌的数据
-let trademarkArr = ref<any>([])
+let trademarkArr = ref<Records>([])
 
 //获取已有品牌的接口封装为一个函数:在任何情况下向获取数据,调用次函数即可
 const getHasTrademark = async (pager = 1) => {
   //当前页码
   pageNo.value = pager
-  let result = await reqHasTrademark(pageNo.value, limit.value)
+  let result:TradeMarkResponseData = await reqHasTrademark(pageNo.value, limit.value)
   if (result.code == 200) {
     //存储已有品牌总个数
     total.value = result.data.total
@@ -81,8 +82,6 @@ const getHasTrademark = async (pager = 1) => {
 onMounted(() => {
   getHasTrademark()
 })
-
-
 </script>
 
 <style lang="scss" scoped></style>
