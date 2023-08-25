@@ -48,12 +48,18 @@
       :background="true"
       layout=" prev, pager, next, jumper,->,total, sizes,"
       :total="total"
+      :pager-count="9"
+      @current-change="getHasTrademark"
+      @size-change="sizeChange"
     />
   </el-card>
 </template>
 
 <script setup lang="ts">
-import type {Records,TradeMarkResponseData} from '@/api/product/trademark/type'
+import type {
+  Records,
+  TradeMarkResponseData,
+} from '@/api/product/trademark/type'
 import { reqHasTrademark } from '@/api/product/trademark'
 //引入组合式API函数
 import { ref, onMounted } from 'vue'
@@ -68,9 +74,12 @@ let trademarkArr = ref<Records>([])
 
 //获取已有品牌的接口封装为一个函数:在任何情况下向获取数据,调用次函数即可
 const getHasTrademark = async (pager = 1) => {
-  //当前页码
+  //每次调用函数，页码都归1
   pageNo.value = pager
-  let result:TradeMarkResponseData = await reqHasTrademark(pageNo.value, limit.value)
+  let result: TradeMarkResponseData = await reqHasTrademark(
+    pageNo.value,
+    limit.value,
+  )
   if (result.code == 200) {
     //存储已有品牌总个数
     total.value = result.data.total
@@ -82,6 +91,14 @@ const getHasTrademark = async (pager = 1) => {
 onMounted(() => {
   getHasTrademark()
 })
+
+//当下拉菜单发生变化的时候触发此方法
+//这个自定义事件,分页器组件会将下拉菜单选中数据返回
+const sizeChange = () => {
+  //当前每一页的数据量发生变化的时候，当前页码归1
+  getHasTrademark()
+}
+
 </script>
 
 <style lang="scss" scoped></style>
