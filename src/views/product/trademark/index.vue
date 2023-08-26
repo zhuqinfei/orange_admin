@@ -39,7 +39,7 @@
               type="primary"
               size="small"
               icon="Edit"
-              @click="updateTrademark"
+              @click="updateTrademark(row)"
             ></el-button>
             <el-button type="primary" size="small" icon="Delete"></el-button>
           </template>
@@ -67,7 +67,7 @@
       />
     </el-card>
     <!--  对话框组件-->
-    <el-dialog v-model="dialogFormVisible" title="添加品牌">
+    <el-dialog v-model="dialogFormVisible" :title="trademarkParams.id ? '修改品牌' : '添加品牌'">
       <el-form style="width: 80%">
         <el-form-item label="品牌名称" label-width="100px">
           <el-input
@@ -114,7 +114,10 @@ import type {
   TradeMarkResponseData,
   TradeMark,
 } from '@/api/product/trademark/type'
-import { reqHasTrademark,reqAddOrUpdateTrademark } from '@/api/product/trademark'
+import {
+  reqHasTrademark,
+  reqAddOrUpdateTrademark,
+} from '@/api/product/trademark'
 //引入组合式API函数
 import { ref, onMounted, reactive } from 'vue'
 //当前页码
@@ -167,12 +170,15 @@ const addTrademark = () => {
   //清空收集数据
   trademarkParams.tmName = ''
   trademarkParams.logoUrl = ''
+  trademarkParams.id = 0
 }
 
 //修改已有品牌的按钮的回调
-const updateTrademark = () => {
+const updateTrademark = (row:TradeMark) => {
   //对话框显示
   dialogFormVisible.value = true
+  //ES6语法合并对象
+  Object.assign(trademarkParams, row)
 }
 
 //对话框底部取消按钮
@@ -180,7 +186,7 @@ const cancel = () => {
   //对话框隐藏
   dialogFormVisible.value = false
 }
-const confirm =async () => {
+const confirm = async () => {
   let result: any = await reqAddOrUpdateTrademark(trademarkParams)
   //添加|修改已有品牌
   if (result.code == 200) {
@@ -189,15 +195,15 @@ const confirm =async () => {
     //弹出提示信息
     ElMessage({
       type: 'success',
-      message:'添加品牌成功',
+      message: trademarkParams.id ? '修改品牌成功' : '添加品牌成功',
     })
     //再次发请求获取已有全部的品牌数据
-    getHasTrademark()
+    getHasTrademark(trademarkParams.id ? pageNo.value : 1)
   } else {
     //添加品牌失败
     ElMessage({
       type: 'error',
-      message:'添加品牌失败',
+      message: trademarkParams.id ? '修改品牌失败' : '添加品牌失败',
     })
     //关闭对话框
     dialogFormVisible.value = false
