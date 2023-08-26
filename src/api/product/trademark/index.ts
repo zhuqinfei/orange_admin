@@ -29,4 +29,3 @@ export const reqAddOrUpdateTrademark = (data: TradeMark) => {
     return request.post<any, any>(API.ADDTRADEMARK_URL, data)
   }
 }
-
