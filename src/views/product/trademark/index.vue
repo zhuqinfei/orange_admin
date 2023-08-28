@@ -41,7 +41,16 @@
               icon="Edit"
               @click="updateTrademark(row)"
             ></el-button>
-            <el-button type="primary" size="small" icon="Delete"></el-button>
+            <el-popconfirm
+                :title="`你确定要删除${row.tmName}?`"
+                width="250"
+                icon="Delete"
+                @confirm='removeTradeMark(row.id)'
+            >
+              <template #reference>
+                <el-button type="primary" size="small" icon="Delete"></el-button>
+              </template>
+            </el-popconfirm>
           </template>
         </el-table-column>
       </el-table>
@@ -71,7 +80,12 @@
       v-model="dialogFormVisible"
       :title="trademarkParams.id ? '修改品牌' : '添加品牌'"
     >
-      <el-form style="width: 80%" :model="trademarkParams" :rules="rules" ref="formRef">
+      <el-form
+        style="width: 80%"
+        :model="trademarkParams"
+        :rules="rules"
+        ref="formRef"
+      >
         <el-form-item label="品牌名称" label-width="100px" prop="tmName">
           <el-input
             placeholder="请您输入品牌名称"
@@ -120,9 +134,10 @@ import type {
 import {
   reqHasTrademark,
   reqAddOrUpdateTrademark,
+  reqDeleteTrademark
 } from '@/api/product/trademark'
 //引入组合式API函数
-import { ref, onMounted, reactive,nextTick } from 'vue'
+import { ref, onMounted, reactive, nextTick } from 'vue'
 //当前页码
 let pageNo = ref<number>(1)
 //每一页展示的数据
@@ -139,7 +154,7 @@ let trademarkParams = reactive<TradeMark>({
   logoUrl: '',
 })
 //获取el-form组件实例
-let formRef = ref();
+let formRef = ref()
 
 //获取已有品牌的接口封装为一个函数:在任何情况下向获取数据,调用次函数即可
 const getHasTrademark = async (pager = 1) => {
@@ -289,19 +304,37 @@ const validatorLogoUrl = (rule: any, value: any, callBack: any) => {
     callBack(new Error('LOGO图片务必上传'))
   }
 }
-
 //表单校验规则对象
 const rules = {
   tmName: [
     //required:这个字段务必校验,表单项前面出来五角星
     //trigger:代表触发校验规则时机[blur、change]
-    { required: true, trigger: 'blur', validator: validatorTmName},
+    { required: true, trigger: 'blur', validator: validatorTmName },
   ],
   logoUrl: [{ required: true, validator: validatorLogoUrl }],
 }
 
-
-
+//气泡确认框确定按钮的回调
+const removeTradeMark = async (id: number) => {
+  //点击确定按钮删除已有品牌请求
+  let result = await reqDeleteTrademark(id)
+  if (result.code == 200) {
+    //删除成功提示信息
+    ElMessage({
+      type: 'success',
+      message: '删除品牌成功',
+    })
+    //再次获取已有的品牌数据
+    getHasTrademark(
+        trademarkArr.value.length > 1 ? pageNo.value : pageNo.value - 1,
+    )
+  } else {
+    ElMessage({
+      type: 'error',
+      message: '删除品牌失败',
+    })
+  }
+}
 </script>
 
 <style lang="scss" scoped>
