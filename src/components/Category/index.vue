@@ -16,20 +16,20 @@
       <el-form-item label="二级分类">
         <el-select v-model="categoryStore.c2Id" @change="handler1">
           <el-option
-              v-for="(c2, index) in categoryStore.c2Arr"
-              :key="c2.id"
-              :label="c2.name"
-              :value="c2.id"
+            v-for="(c2, index) in categoryStore.c2Arr"
+            :key="c2.id"
+            :label="c2.name"
+            :value="c2.id"
           ></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="三级分类">
         <el-select v-model="categoryStore.c3Id">
           <el-option
-              v-for="(c3, index) in categoryStore.c3Arr"
-              :key="c3.id"
-              :label="c3.name"
-              :value="c3.id"
+            v-for="(c3, index) in categoryStore.c3Arr"
+            :key="c3.id"
+            :label="c3.name"
+            :value="c3.id"
           ></el-option>
         </el-select>
       </el-form-item>
@@ -69,7 +69,6 @@ const handler1 = () => {
   //通知仓库获取二级分类的数据
   categoryStore.getC3()
 }
-
 </script>
 
 <style scoped lang="scss"></style>
