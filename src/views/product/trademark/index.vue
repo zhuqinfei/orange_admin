@@ -42,13 +42,17 @@
               @click="updateTrademark(row)"
             ></el-button>
             <el-popconfirm
-                :title="`你确定要删除${row.tmName}?`"
-                width="250"
-                icon="Delete"
-                @confirm='removeTradeMark(row.id)'
+              :title="`你确定要删除${row.tmName}?`"
+              width="250"
+              icon="Delete"
+              @confirm="removeTradeMark(row.id)"
             >
               <template #reference>
-                <el-button type="primary" size="small" icon="Delete"></el-button>
+                <el-button
+                  type="primary"
+                  size="small"
+                  icon="Delete"
+                ></el-button>
               </template>
             </el-popconfirm>
           </template>
@@ -134,7 +138,7 @@ import type {
 import {
   reqHasTrademark,
   reqAddOrUpdateTrademark,
-  reqDeleteTrademark
+  reqDeleteTrademark,
 } from '@/api/product/trademark'
 //引入组合式API函数
 import { ref, onMounted, reactive, nextTick } from 'vue'
@@ -326,7 +330,7 @@ const removeTradeMark = async (id: number) => {
     })
     //再次获取已有的品牌数据
     getHasTrademark(
-        trademarkArr.value.length > 1 ? pageNo.value : pageNo.value - 1,
+      trademarkArr.value.length > 1 ? pageNo.value : pageNo.value - 1,
     )
   } else {
     ElMessage({
