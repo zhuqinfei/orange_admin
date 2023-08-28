@@ -3,7 +3,7 @@
   <el-card>
     <el-form :inline="true">
       <el-form-item label="一级分类">
-        <el-select v-model="categoryStore.c1Id" @change="handler">
+        <el-select :disabled="scene==0?false:true" v-model="categoryStore.c1Id" @change="handler">
           <!-- label:即为展示数据 value:即为select下拉菜单收集的数据 -->
           <el-option
             v-for="(c1, index) in categoryStore.c1Arr"
@@ -14,7 +14,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="二级分类">
-        <el-select v-model="categoryStore.c2Id" @change="handler1">
+        <el-select :disabled="scene==0?false:true" v-model="categoryStore.c2Id" @change="handler1">
           <el-option
             v-for="(c2, index) in categoryStore.c2Arr"
             :key="c2.id"
@@ -24,7 +24,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="三级分类">
-        <el-select v-model="categoryStore.c3Id">
+        <el-select :disabled="scene==0?false:true" v-model="categoryStore.c3Id">
           <el-option
             v-for="(c3, index) in categoryStore.c3Arr"
             :key="c3.id"
@@ -69,6 +69,11 @@ const handler1 = () => {
   //通知仓库获取二级分类的数据
   categoryStore.getC3()
 }
+
+//接受父组件传递过来scene
+defineProps(['scene'])
+
+
 </script>
 
 <style scoped lang="scss"></style>

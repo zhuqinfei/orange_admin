@@ -1,6 +1,6 @@
 //这里书写属性相关的API文件
 import request from '@/utils/request'
-import type { CategoryResponseData,AttrResponseData } from './type'
+import type { CategoryResponseData, AttrResponseData } from './type'
 //属性管理模块接口地址
 enum API {
   //获取一级分类接口地址
@@ -11,7 +11,6 @@ enum API {
   C3_URL = '/admin/product/getCategory3/',
   //获取分类下已有的属性与属性值
   ATTR_URL = '/admin/product/attrInfoList/',
-
 }
 
 //获取一级分类的接口方法
