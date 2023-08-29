@@ -56,26 +56,31 @@
       <div v-show="scene == 1">
         <el-form :inline="true">
           <el-form-item label="属性名称">
-            <el-input placeholder="请输入你的属性名称"></el-input>
+            <el-input placeholder="请输入你的属性名称" v-model="attrParams.attrName"></el-input>
           </el-form-item>
         </el-form>
-        <el-button type="primary" size="default" icon="Plus">
+        <el-button @click="addAttrValue" :disabled="attrParams.attrName?false:true" type="primary" size="default" icon="Plus">
           添加属性值
         </el-button>
         <el-button type="primary" size="default" @click="cancel">
           取消
         </el-button>
-        <el-table style="margin: 10px 0px" border>
+        <el-table style="margin: 10px 0px" border :data="attrParams.attrValueList">
           <el-table-column
             label="序号"
             width="80px"
             type="index"
             align="center"
           ></el-table-column>
-          <el-table-column label="属性值名称"></el-table-column>
+          <el-table-column label="属性值名称">
+<!--            row:当前属性值对象-->
+            <template #="{row,$index}">
+              <el-input placeholder="请你输入属性值名称" v-model="row.valueName"></el-input>
+            </template>
+          </el-table-column>
           <el-table-column label="属性值操作"></el-table-column>
         </el-table>
-        <el-button type="primary" size="default">保存</el-button>
+        <el-button type="primary" size="default" @click="save">保存</el-button>
         <el-button type="primary" size="default" @click="cancel">
           取消
         </el-button>
@@ -85,18 +90,19 @@
 </template>
 
 <script setup lang="ts">
-import type { AttrResponseData,Attr } from '@/api/product/attr/type'
+import { ElMessage } from 'element-plus';
+import type { AttrResponseData, Attr } from '@/api/product/attr/type'
 //组合式API函数
-import { watch, ref,reactive } from 'vue'
+import { watch, ref, reactive } from 'vue'
 //引入获取已有属性与属性值接口
-import { reqAttr } from '@/api/product/attr'
+import { reqAttr,reqAddOrUpdateAttr } from '@/api/product/attr'
 //获取分类的仓库
 import useCategoryStore from '@/store/modules/category'
 let categoryStore = useCategoryStore()
 //存储已有的属性与属性值
 let attrArr = ref<Attr[]>([])
 //定义card组件内容切换变量
-let scene = ref<number>(1) //scene=0,显示table,scene=1,展示添加与修改属性结构
+let scene = ref<number>(0) //scene=0,显示table,scene=1,展示添加与修改属性结构
 
 //收集新增的属性的数据
 let attrParams = reactive<Attr>({
@@ -132,6 +138,15 @@ const getAttr = async () => {
 
 //添加属性值按钮的回调
 const addAtrr = () => {
+  //每一次点击的时候,先清空一下数据再收集数据
+  Object.assign(attrParams, {
+    attrName: '', //新增的属性的名字
+    attrValueList: [
+      //新增的属性值数组
+    ],
+    categoryId: categoryStore.c3Id, //三级分类的ID
+    categoryLevel: 3, //代表的是三级分类
+  })
   scene.value = 1
 }
 //table表格修改已有属性按钮的回调
@@ -142,6 +157,38 @@ const updateAttr = (row: Attr) => {
 //取消按钮的回调
 const cancel = () => {
   scene.value = 0
+}
+
+//添加属性值按钮的回调
+const addAttrValue = () => {
+  //点击添加属性值按钮的时候,向数组添加一个属性值对象
+  attrParams.attrValueList.push({
+    valueName: '',
+    flag: true, //控制每一个属性值编辑模式与切换模式的切换
+  })
+}
+
+//保存按钮的回调
+const save = async () => {
+  //发请求
+  let result: any = await reqAddOrUpdateAttr(attrParams)
+  //添加属性|修改已有的属性已经成功
+  if (result.code == 200) {
+    //切换场景
+    scene.value = 0
+    //提示信息
+    ElMessage({
+      type: 'success',
+      message: attrParams.id ? '修改成功' : '添加成功',
+    })
+    //获取全部已有的属性与属性值（更新页面）
+    getAttr()
+  } else {
+    ElMessage({
+      type: 'error',
+      message: attrParams.id ? '修改失败' : '添加失败',
+    })
+  }
 }
 </script>
 
