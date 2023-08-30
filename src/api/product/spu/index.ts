@@ -1,6 +1,12 @@
 //SPU管理模块的接口
 import request from '@/utils/request'
-import type { HasSpuResponseData,AllTradeMark,SpuHasImg,SaleAttrResponseData,HasSaleAttrResponseData} from './type'
+import type {
+  HasSpuResponseData,
+  AllTradeMark,
+  SpuHasImg,
+  SaleAttrResponseData,
+  HasSaleAttrResponseData,
+} from './type'
 enum API {
   //获取已有的SPU的数据
   HASSPU_URL = '/admin/product/',
