@@ -16,11 +16,11 @@
     </el-form-item>
     <el-form-item label="SPU图片">
       <el-upload
-          v-model:file-list="fileList"
-          action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15"
-          list-type="picture-card"
-          :on-preview="handlePictureCardPreview"
-          :on-remove="handleRemove"
+        v-model:file-list="fileList"
+        action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15"
+        list-type="picture-card"
+        :on-preview="handlePictureCardPreview"
+        :on-remove="handleRemove"
       >
         <el-icon><Plus /></el-icon>
       </el-upload>
@@ -36,25 +36,25 @@
         <el-option label="vivo"></el-option>
       </el-select>
       <el-button
-          style="margin-left: 10px"
-          type="primary"
-          size="default"
-          icon="Plus"
+        style="margin-left: 10px"
+        type="primary"
+        size="default"
+        icon="Plus"
       >
         添加属性
       </el-button>
       <!-- table展示销售属性与属性值的地方 -->
       <el-table border style="margin: 10px 0px">
         <el-table-column
-            label="序号"
-            type="index"
-            align="center"
-            width="80px"
+          label="序号"
+          type="index"
+          align="center"
+          width="80px"
         ></el-table-column>
         <el-table-column
-            label="销售属性名字"
-            width="120px"
-            prop="saleAttrName"
+          label="销售属性名字"
+          width="120px"
+          prop="saleAttrName"
         ></el-table-column>
         <el-table-column label="销售属性值">
           <!-- row:即为当前SPU已有的销售属性对象 -->
@@ -70,12 +70,11 @@
 </template>
 
 <script setup lang="ts">
-let $emit=defineEmits(['changeScene'])
+let $emit = defineEmits(['changeScene'])
 //点击取消按钮:通知父组件切换场景为1,展示有的SPU的数据
 const cancel = () => {
-  $emit('changeScene',0);
+  $emit('changeScene', 0)
 }
 </script>
-
 
 <style lang="scss" scoped></style>
