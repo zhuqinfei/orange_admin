@@ -46,7 +46,7 @@
                 type="primary"
                 size="small"
                 icon="Edit"
-                @click="updateAttr"
+                @click="updateAttr(row)"
               ></el-button>
               <el-button type="primary" size="small" icon="Delete"></el-button>
             </template>
@@ -93,15 +93,23 @@
                 v-model="row.valueName"
                 v-if="row.flag"
                 @blur="toLook(row, $index)"
-                :ref="(vc:any)=>{inputArr[$index]=vc}"
+                :ref="
+                  (vc: any) => {
+                    inputArr[$index] = vc
+                  }
+                "
               ></el-input>
               <div v-else @click="toEdit(row, $index)">{{ row.valueName }}</div>
             </template>
           </el-table-column>
           <el-table-column label="属性值操作">
             <template #="{ row, index }">
-              <el-button type="primary" size="small" icon="Delete"
-                         @click="attrParams.attrValueList.splice(index, 1)"></el-button>
+              <el-button
+                type="primary"
+                size="small"
+                icon="Delete"
+                @click="attrParams.attrValueList.splice(index, 1)"
+              ></el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -123,9 +131,9 @@
 
 <script setup lang="ts">
 import { ElMessage } from 'element-plus'
-import type {AttrResponseData, Attr, AttrValue} from '@/api/product/attr/type';
+import type { AttrResponseData, Attr, AttrValue } from '@/api/product/attr/type'
 //组合式API函数
-import { watch, ref, reactive,nextTick } from 'vue'
+import { watch, ref, reactive, nextTick } from 'vue'
 //引入获取已有属性与属性值接口
 import { reqAttr, reqAddOrUpdateAttr } from '@/api/product/attr'
 //获取分类的仓库
@@ -187,6 +195,10 @@ const addAtrr = () => {
 const updateAttr = (row: Attr) => {
   //切换为添加与修改属性的结构
   scene.value = 1
+
+  //将已有的属性对象赋值给attrParams对象即为
+  //ES6->Object.assign进行对象的合并
+  Object.assign(attrParams, JSON.parse(JSON.stringify(row)))
 }
 //取消按钮的回调
 const cancel = () => {
@@ -230,7 +242,7 @@ const save = async () => {
 }
 
 //属性值表单元素失却焦点事件回调
-const toLook = (row:AttrValue, $index:number) => {
+const toLook = (row: AttrValue, $index: number) => {
   if (row.valueName.trim() == '') {
     //删除调用对应属性值为空的元素
     attrParams.attrValueList.splice($index, 1)
@@ -264,7 +276,7 @@ const toLook = (row:AttrValue, $index:number) => {
   row.flag = false
 }
 //属性值div点击事件
-const toEdit = (row:AttrValue, $index:number) => {
+const toEdit = (row: AttrValue, $index: number) => {
   //相应的属性值对象flag:变为true,展示input
   row.flag = true
   //nextTick:响应式数据发生变化,获取更新的DOM(组件实例)
