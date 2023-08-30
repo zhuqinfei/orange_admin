@@ -6,7 +6,7 @@ import type {
   SpuHasImg,
   SaleAttrResponseData,
   HasSaleAttrResponseData,
-  SpuData
+  SpuData,
 } from './type'
 enum API {
   //获取已有的SPU的数据
