@@ -48,9 +48,17 @@
                 icon="Edit"
                 @click="updateAttr(row)"
               ></el-button>
-              <el-popconfirm :title="`你确定删除${row.attrName}?`" width="200px" @confirm="deleteAttr(row.id)">
+              <el-popconfirm
+                :title="`你确定删除${row.attrName}?`"
+                width="200px"
+                @confirm="deleteAttr(row.id)"
+              >
                 <template #reference>
-                  <el-button type="primary" size="small" icon="Delete"></el-button>
+                  <el-button
+                    type="primary"
+                    size="small"
+                    icon="Delete"
+                  ></el-button>
                 </template>
               </el-popconfirm>
             </template>
@@ -137,9 +145,9 @@
 import { ElMessage } from 'element-plus'
 import type { AttrResponseData, Attr, AttrValue } from '@/api/product/attr/type'
 //组合式API函数
-import { watch, ref, reactive, nextTick,onBeforeUnmount } from 'vue'
+import { watch, ref, reactive, nextTick, onBeforeUnmount } from 'vue'
 //引入获取已有属性与属性值接口
-import { reqAttr, reqAddOrUpdateAttr,reqRemoveAttr } from '@/api/product/attr'
+import { reqAttr, reqAddOrUpdateAttr, reqRemoveAttr } from '@/api/product/attr'
 //获取分类的仓库
 import useCategoryStore from '@/store/modules/category'
 let categoryStore = useCategoryStore()
