@@ -71,9 +71,23 @@
 
 <script setup lang="ts">
 import type { SpuData } from '@/api/product/spu/type'
-import { reqAllTradeMark, reqSpuImageList, reqSpuHasSaleAttr, reqAllSaleAttr} from '@/api/product/spu'
-import type { AllTradeMark, SpuHasImg, SaleAttrResponseData, HasSaleAttrResponseData,Trademark,SpuImg,SaleAttr,HasSaleAttr } from '@/api/product/spu/type';
-import { ref} from 'vue';
+import {
+  reqAllTradeMark,
+  reqSpuImageList,
+  reqSpuHasSaleAttr,
+  reqAllSaleAttr,
+} from '@/api/product/spu'
+import type {
+  AllTradeMark,
+  SpuHasImg,
+  SaleAttrResponseData,
+  HasSaleAttrResponseData,
+  Trademark,
+  SpuImg,
+  SaleAttr,
+  HasSaleAttr,
+} from '@/api/product/spu/type'
+import { ref } from 'vue'
 let $emit = defineEmits(['changeScene'])
 //点击取消按钮:通知父组件切换场景为1,展示有的SPU的数据
 const cancel = () => {
@@ -81,13 +95,13 @@ const cancel = () => {
 }
 
 //存储已有的SPU这些数据
-let AllTradeMark = ref<Trademark[]>([]);
+let AllTradeMark = ref<Trademark[]>([])
 //商品图片
-let imgList = ref<SpuImg[]>([]);
+let imgList = ref<SpuImg[]>([])
 //已有的SPU销售属性
-let saleAttr = ref<SaleAttr[]>([]);
+let saleAttr = ref<SaleAttr[]>([])
 //全部销售属性
-let allSaleAttr = ref<HasSaleAttr[]>([]);
+let allSaleAttr = ref<HasSaleAttr[]>([])
 
 //子组件书写一个方法
 const initHasSpuData = async (spu: SpuData) => {
@@ -116,7 +130,7 @@ const initHasSpuData = async (spu: SpuData) => {
 }
 
 //对外暴露
-defineExpose({initHasSpuData})
+defineExpose({ initHasSpuData })
 </script>
 
 <style lang="scss" scoped></style>

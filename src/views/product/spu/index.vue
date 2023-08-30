@@ -71,7 +71,11 @@
         />
       </div>
       <!--      添加spu|修改spu子组件-->
-      <SpuForm ref="spu" v-show="scene == 1" @changeScene="changeScene"></SpuForm>
+      <SpuForm
+        ref="spu"
+        v-show="scene == 1"
+        @changeScene="changeScene"
+      ></SpuForm>
       <!--      添加sku子组件-->
       <SkuForm v-show="scene == 2"></SkuForm>
     </el-card>
@@ -80,7 +84,11 @@
 
 <script setup lang="ts">
 import { ref, watch } from 'vue'
-import type { HasSpuResponseData, Records,SkuData } from '@/api/product/spu/type'
+import type {
+  HasSpuResponseData,
+  Records,
+  SkuData,
+} from '@/api/product/spu/type'
 import { reqHasSpu } from '@/api/product/spu'
 import SpuForm from './spuForm.vue'
 import SkuForm from './skuForm.vue'
@@ -98,7 +106,7 @@ let records = ref<Records>([])
 //存储已有SPU总个数
 let total = ref<number>(0)
 //获取子组件实例SpuForm
-let spu = ref<any>();
+let spu = ref<any>()
 
 //监听三级分类ID变化
 watch(
@@ -138,7 +146,7 @@ const addSpu = () => {
 }
 
 //修改已有的SPU的按钮的回调
-const updateSpu = (row:SkuData) => {
+const updateSpu = (row: SkuData) => {
   //切换为场景1:添加与修改已有SPU结构->SpuForm
   scene.value = 1
   //调用子组件实例方法获取完整已有的SPU的数据
