@@ -27,7 +27,7 @@
     <el-form-item label="SPU图片">
       <el-upload
         v-model:file-list="imgList"
-        action="/api/adminfileUpload/product/"
+        action="/api/admin/product/fileUpload"
         list-type="picture-card"
         :on-preview="handlePictureCardPreview"
         :on-remove="handleRemove"
@@ -36,7 +36,12 @@
         <el-icon><Plus /></el-icon>
       </el-upload>
       <el-dialog v-model="dialogVisible">
-        <img w-full :src="dialogImageUrl" alt="Preview Image" style="width:100%;height: 100%;"/>
+        <img
+          w-full
+          :src="dialogImageUrl"
+          alt="Preview Image"
+          style="width: 100%; height: 100%"
+        />
       </el-dialog>
     </el-form-item>
     <el-form-item label="SPU销售属性" size="normal">
@@ -99,7 +104,7 @@ import type {
   HasSaleAttr,
 } from '@/api/product/spu/type'
 import { ref } from 'vue'
-import { ElMessage } from 'element-plus';
+import { ElMessage } from 'element-plus'
 let $emit = defineEmits(['changeScene'])
 //点击取消按钮:通知父组件切换场景为1,展示有的SPU的数据
 const cancel = () => {
@@ -165,10 +170,11 @@ const handlePictureCardPreview = (file: any) => {
 
 //照片钱上传成功之前的钩子约束文件的大小与类型
 const handlerUpload = (file: any) => {
+  console.log(file)
   if (
-      file.type == 'image/png' ||
-      file.type == 'image/jpeg' ||
-      file.type == 'image/gif'
+    file.type == 'image/png' ||
+    file.type == 'image/jpeg' ||
+    file.type == 'image/gif'
   ) {
     if (file.size / 1024 / 1024 < 3) {
       return true
@@ -188,11 +194,8 @@ const handlerUpload = (file: any) => {
   }
 }
 
-
 //对外暴露
 defineExpose({ initHasSpuData })
-
 </script>
-
 
 <style lang="scss" scoped></style>
