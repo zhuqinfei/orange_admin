@@ -97,9 +97,21 @@
             >
               {{ item.saleAttrValueName }}
             </el-tag>
-            <el-input  @blur="toLook(row)" v-model="row.saleAttrValue" v-if="row.flag == true"
-                       placeholder="请你输入属性值" size="small" style="width:100px"></el-input>
-            <el-button  @click="toEdit(row)" v-else type="primary" size="small" icon="Plus"></el-button>
+            <el-input
+              @blur="toLook(row)"
+              v-model="row.saleAttrValue"
+              v-if="row.flag == true"
+              placeholder="请你输入属性值"
+              size="small"
+              style="width: 100px"
+            ></el-input>
+            <el-button
+              @click="toEdit(row)"
+              v-else
+              type="primary"
+              size="small"
+              icon="Plus"
+            ></el-button>
           </template>
         </el-table-column>
         <el-table-column label="操作" width="120px">
@@ -115,7 +127,7 @@
       </el-table>
     </el-form-item>
     <el-form-item>
-      <el-button type="primary" size="default">保存</el-button>
+      <el-button :disabled="saleAttr.length > 0 ? false : true" type="primary" size="default" @click="save">保存</el-button>
       <el-button type="primary" size="default" @click="cancel">取消</el-button>
     </el-form-item>
   </el-form>
@@ -128,7 +140,9 @@ import {
   reqSpuImageList,
   reqSpuHasSaleAttr,
   reqAllSaleAttr,
-} from '@/api/product/spu'
+  reqAddOrUpdateSpu,
+  reqHasSpu
+} from '@/api/product/spu';
 import type {
   AllTradeMark,
   SpuHasImg,
@@ -138,7 +152,7 @@ import type {
   SpuImg,
   SaleAttr,
   HasSaleAttr,
-  SaleAttrValue
+  SaleAttrValue,
 } from '@/api/product/spu/type'
 import { ref, computed } from 'vue'
 import { ElMessage } from 'element-plus'
@@ -209,7 +223,6 @@ const handlePictureCardPreview = (file: any) => {
 
 //照片钱上传成功之前的钩子约束文件的大小与类型
 const handlerUpload = (file: any) => {
-  console.log(file)
   if (
     file.type == 'image/png' ||
     file.type == 'image/jpeg' ||
@@ -268,46 +281,76 @@ const addSaleAttr = () => {
 //属性值按钮的点击事件
 const toEdit = (row: SaleAttr) => {
   //点击按钮的时候,input组件不就不出来->编辑模式
-  row.flag = true;
+  row.flag = true
   row.saleAttrValue = ''
 }
 
 //表单元素失却焦点的事件回调
 const toLook = (row: SaleAttr) => {
   //整理收集的属性的ID与属性值的名字
-  const { baseSaleAttrId, saleAttrValue } = row;
+  const { baseSaleAttrId, saleAttrValue } = row
   //整理成服务器需要的属性值形式
   let newSaleAttrValue: SaleAttrValue = {
     baseSaleAttrId,
-    saleAttrValueName: (saleAttrValue as string)
+    saleAttrValueName: saleAttrValue as string,
   }
 
   //非法情况判断
   if ((saleAttrValue as string).trim() == '') {
     ElMessage({
       type: 'error',
-      message: '属性值不能为空的'
+      message: '属性值不能为空的',
     })
-    return;
+    return
   }
   //判断属性值是否在数组当中存在
-  let repeat = row.spuSaleAttrValueList.find(item => {
-    return item.saleAttrValueName == saleAttrValue;
+  let repeat = row.spuSaleAttrValueList.find((item) => {
+    return item.saleAttrValueName == saleAttrValue
   })
 
   if (repeat) {
     ElMessage({
       type: 'error',
-      message: '属性值重复'
+      message: '属性值重复',
     })
-    return;
+    return
   }
 
-
   //追加新的属性值对象
-  row.spuSaleAttrValueList.push(newSaleAttrValue);
+  row.spuSaleAttrValueList.push(newSaleAttrValue)
   //切换为查看模式
-  row.flag = false;
+  row.flag = false
+}
+
+//保存按钮的回调
+const save = async () => {
+  //整理参数
+  //发请求:添加SPU|更新已有的SPU
+  //成功
+  //失败
+  //1:照片墙的数据
+  SpuParams.value.spuImageList = imgList.value.map((item: any) => {
+    return {
+      imgName: item.name, //图片的名字
+      imgUrl: (item.response && item.response.data) || item.url,
+    }
+  })
+  //2:整理销售属性的数据
+  SpuParams.value.spuSaleAttrList = saleAttr.value
+  let result = await reqAddOrUpdateSpu(SpuParams.value)
+  if (result.code == 200) {
+    ElMessage({
+      type: 'success',
+      message: SpuParams.value.id ? '更新成功' : '添加成功',
+    })
+    //通知父组件切换场景为0
+    $emit('changeScene', 0)
+  } else {
+    ElMessage({
+      type: 'success',
+      message: SpuParams.value.id ? '更新成功' : '添加成功',
+    })
+  }
 }
 
 //对外暴露
