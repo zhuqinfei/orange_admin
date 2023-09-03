@@ -31,6 +31,7 @@
                 size="small"
                 icon="Plus"
                 title="添加SKU"
+                @click="addSku(row)"
               ></el-button>
               <el-button
                 type="primary"
@@ -77,7 +78,7 @@
         @changeScene="changeScene"
       ></SpuForm>
       <!--      添加sku子组件-->
-      <SkuForm v-show="scene == 2"></SkuForm>
+      <SkuForm v-show="scene == 2" @changeScene="changeScene"></SkuForm>
     </el-card>
   </div>
 </template>
@@ -168,6 +169,11 @@ const changeScene = (obj: any) => {
   }
 }
 
+//添加SKU按钮的回调
+const addSku = (row: SpuData) => {
+  //点击添加SKU按钮切换场景为2
+  scene.value = 2
+}
 </script>
 
 <style scoped lang="scss"></style>
