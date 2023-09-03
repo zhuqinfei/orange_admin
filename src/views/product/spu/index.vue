@@ -78,7 +78,7 @@
         @changeScene="changeScene"
       ></SpuForm>
       <!--      添加sku子组件-->
-      <SkuForm v-show="scene == 2" @changeScene="changeScene"></SkuForm>
+      <SkuForm ref="sku" v-show="scene == 2" @changeScene="changeScene"></SkuForm>
     </el-card>
   </div>
 </template>
@@ -108,6 +108,8 @@ let records = ref<Records>([])
 let total = ref<number>(0)
 //获取子组件实例SpuForm
 let spu = ref<any>()
+//获取子组件实例SkuForm
+let sku = ref<any>();
 
 //监听三级分类ID变化
 watch(
@@ -173,6 +175,8 @@ const changeScene = (obj: any) => {
 const addSku = (row: SpuData) => {
   //点击添加SKU按钮切换场景为2
   scene.value = 2
+  //调用子组件的方法初始化添加SKU的数据
+  sku.value.initSkuData(categoryStore.c1Id, categoryStore.c2Id,row)
 }
 </script>
 
