@@ -25,7 +25,6 @@ enum API {
   UPDATESPU_URL = '/admin/product/updateSpuInfo',
   //追加一个新增的SKU地址
   ADDSKU_URL = '/admin/product/saveSkuInfo',
-
 }
 
 //获取某一个三级分类下已有的SPU数据
@@ -72,6 +71,6 @@ export const reqAddOrUpdateSpu = (data: SpuData) => {
 }
 
 //添加SKU的请求方法
-export const reqAddSku = (data: SkuData) => {
+export const reqAddSku = (data: any) => {
   request.post<any, any>(API.ADDSKU_URL, data)
 }
