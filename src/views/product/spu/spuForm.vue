@@ -230,7 +230,11 @@ const handlePictureCardPreview = (file: any) => {
 
 //照片钱上传成功之前的钩子约束文件的大小与类型
 const handlerUpload = (file: any) => {
-  if (file.type == 'image/png' || file.type == 'image/jpeg' || file.type == 'image/gif'){
+  if (
+    file.type == 'image/png' ||
+    file.type == 'image/jpeg' ||
+    file.type == 'image/gif'
+  ) {
     if (file.size / 1024 / 1024 < 3) {
       return true
     } else {

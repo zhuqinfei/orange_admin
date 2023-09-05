@@ -52,17 +52,17 @@
         >
           <el-select v-model="item.saleIdAndValueId">
             <el-option
-                v-for="(saleAttrValue, index) in item.spuSaleAttrValueList"
-                :key="saleAttrValue.id"
-                :label="saleAttrValue.saleAttrValueName"
-                :value="`${item.id}:${saleAttrValue.id}`"
+              v-for="(saleAttrValue, index) in item.spuSaleAttrValueList"
+              :key="saleAttrValue.id"
+              :label="saleAttrValue.saleAttrValueName"
+              :value="`${item.id}:${saleAttrValue.id}`"
             ></el-option>
           </el-select>
         </el-form-item>
       </el-form>
     </el-form-item>
     <el-form-item label="图片名称" size="normal">
-      <el-table border :data="imgArr"  ref="table">
+      <el-table border :data="imgArr" ref="table">
         <el-table-column
           type="selection"
           width="80px"
@@ -76,7 +76,9 @@
         <el-table-column label="名称" prop="imgName"></el-table-column>
         <el-table-column label="操作">
           <template #="{ row, $index }">
-            <el-button type="primary" size="small"  @click="handler(row)">设置默认</el-button>
+            <el-button type="primary" size="small" @click="handler(row)">
+              设置默认
+            </el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -91,11 +93,14 @@
 <script setup lang="ts">
 //引入请求API
 import { reqAttr } from '@/api/product/attr'
-import { reqSpuImageList, reqSpuHasSaleAttr,reqAddSku} from '@/api/product/spu'
+import {
+  reqSpuImageList,
+  reqSpuHasSaleAttr,
+  reqAddSku,
+} from '@/api/product/spu'
 import type { SkuData } from '@/api/product/spu/type'
 import { ref, reactive } from 'vue'
 import { ElMessage } from 'element-plus'
-
 
 //取消按钮的回调
 const cancel = () => {
@@ -109,7 +114,7 @@ let saleArr = ref<any>([])
 //照片的数据
 let imgArr = ref<any>([])
 //获取table组件实例
-let table = ref<any>();
+let table = ref<any>()
 //收集SKU的参数
 let skuParams = reactive<SkuData>({
   //父组件传递过来的数据
@@ -173,37 +178,41 @@ const save = async () => {
   //平台属性
   skuParams.skuAttrValueList = attrArr.value.reduce((prev: any, next: any) => {
     if (next.attrIdAndValueId) {
-      let [attrId, valueId] = next.attrIdAndValueId.split(':');
+      let [attrId, valueId] = next.attrIdAndValueId.split(':')
       prev.push({
         attrId,
-        valueId
+        valueId,
       })
     }
-    return prev;
-  }, []);
+    return prev
+  }, [])
   //销售属性
-  skuParams.skuSaleAttrValueList = saleArr.value.reduce((prev: any, next: any) => {
-    if (next.saleIdAndValueId) {
-      let [saleAttrId, saleAttrValueId] = next.saleIdAndValueId.split(':');
-      prev.push({
-        saleAttrId, saleAttrValueId
-      })
-    }
-    return prev;
-  }, []);
+  skuParams.skuSaleAttrValueList = saleArr.value.reduce(
+    (prev: any, next: any) => {
+      if (next.saleIdAndValueId) {
+        let [saleAttrId, saleAttrValueId] = next.saleIdAndValueId.split(':')
+        prev.push({
+          saleAttrId,
+          saleAttrValueId,
+        })
+      }
+      return prev
+    },
+    [],
+  )
   //添加SKU的请求
-  let result: any = await reqAddSku(skuParams);
-  if (result.code == 200) {
+  let result: any = await reqAddSku(skuParams)
+  if (result == undefined) {
     ElMessage({
       type: 'success',
-      message: '添加SKU成功'
-    });
+      message: '添加SKU成功',
+    })
     //通知父组件切换场景为零
-    $emit('changeScene',{flag:0,params:''})
+    $emit('changeScene', { flag: 0, params: '' })
   } else {
     ElMessage({
       type: 'error',
-      message: '添加SKU失败'
+      message: '添加SKU失败',
     })
   }
 }
