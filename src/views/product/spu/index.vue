@@ -47,7 +47,11 @@
                 title="查看SKU列表"
                 @click="findSku(row)"
               ></el-button>
-              <el-popconfirm :title="`你确定删除${row.spuName}?`" width="200px" @confirm="deleteSpu(row)">
+              <el-popconfirm
+                :title="`你确定删除${row.spuName}?`"
+                width="200px"
+                @confirm="deleteSpu(row)"
+              >
                 <template #reference>
                   <el-button
                     type="primary"
@@ -103,18 +107,18 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch,onBeforeUnmount } from 'vue'
+import { ref, watch, onBeforeUnmount } from 'vue'
 import type {
   HasSpuResponseData,
   Records,
   SkuData,
   SkuInfoData,
-  SpuData
+  SpuData,
 } from '@/api/product/spu/type'
-import { reqHasSpu, reqSkuList,reqRemoveSpu } from '@/api/product/spu'
+import { reqHasSpu, reqSkuList, reqRemoveSpu } from '@/api/product/spu'
 import SpuForm from './spuForm.vue'
 import SkuForm from './skuForm.vue'
-import { ElMessage } from 'element-plus';
+import { ElMessage } from 'element-plus'
 //引入分类的仓库
 import useCategoryStore from '@/store/modules/category'
 let categoryStore = useCategoryStore()
@@ -236,7 +240,6 @@ const deleteSpu = async (row: SpuData) => {
 onBeforeUnmount(() => {
   categoryStore.$reset()
 })
-
 </script>
 
 <style scoped lang="scss"></style>
