@@ -1,4 +1,3 @@
-
 //账号信息的ts类型
 export interface ResponseData {
   code: number

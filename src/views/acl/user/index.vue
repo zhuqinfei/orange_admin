@@ -12,7 +12,7 @@
     </el-form>
   </el-card>
   <el-card style="margin: 10px 0px">
-    <el-button type="primary" size="default">添加用户</el-button>
+    <el-button type="primary" size="default" @click="addUser">添加用户</el-button>
     <el-button type="danger" size="default">批量删除</el-button>
     <!-- table展示用户信息 -->
     <el-table style="margin: 10px 0px" border :data="userArr">
@@ -51,11 +51,15 @@
       ></el-table-column>
       <el-table-column label="操作" width="300px" align="center">
         <template #="{ row, $index }">
-          <el-button type="primary" size="small" icon="User">分配角色</el-button>
-          <el-button type="primary" size="small" icon="Edit" >编辑</el-button>
+          <el-button type="primary" size="small" icon="User">
+            分配角色
+          </el-button>
+          <el-button type="primary" size="small" icon="Edit" @click="updateUser(row)">编辑</el-button>
           <el-popconfirm :title="`你确定要删除${row.username}?`" width="260px">
             <template #reference>
-              <el-button type="primary" size="small" icon="Delete">删除</el-button>
+              <el-button type="primary" size="small" icon="Delete">
+                删除
+              </el-button>
             </template>
           </el-popconfirm>
         </template>
@@ -73,11 +77,40 @@
       @size-change="handler"
     />
   </el-card>
+  <!-- 抽屉结构:完成添加新的用户账号|更新已有的账号信息 -->
+  <el-drawer v-model="drawer">
+    <!-- 头部标题:将来文字内容应该动态的 -->
+    <template #header>
+      <h4>添加用户</h4>
+    </template>
+    <!-- 身体部分 -->
+    <template #default>
+      <el-form>
+        <el-form-item label="用户姓名">
+          <el-input placeholder="请您输入用户姓名"></el-input>
+        </el-form-item>
+        <el-form-item label="用户昵称">
+          <el-input placeholder="请您输入用户昵称"></el-input>
+        </el-form-item>
+        <el-form-item label="用户密码">
+          <el-input placeholder="请您输入用户密码"></el-input>
+        </el-form-item>
+      </el-form>
+    </template>
+    <template #footer>
+      <div style="flex: auto">
+        <el-button>取消</el-button>
+        <el-button type="primary">确定</el-button>
+      </div>
+    </template>
+  </el-drawer>
 </template>
 
 <script setup lang="ts">
-import { ref,onMounted } from 'vue'
-import { reqUserInfo} from '@/api/acl/user'
+import { ref, onMounted } from 'vue'
+import { reqUserInfo } from '@/api/acl/user'
+import type {UserResponseData, Records, User} from '@/api/acl/user/type';
+import { ElMessage } from 'element-plus';
 //默认页码
 let pageNo = ref<number>(1)
 //一页展示几条数据
@@ -86,6 +119,8 @@ let pageSize = ref<number>(5)
 let total = ref<number>(0)
 //存储全部用户的数组
 let userArr = ref<Records>([])
+//定义响应式数据控制抽屉的显示与隐藏
+let drawer = ref<boolean>(false);
 
 onMounted(() => {
   getHasUser()
@@ -95,9 +130,9 @@ const getHasUser = async (pager = 1) => {
   //收集当前页码
   pageNo.value = pager
   let result: UserResponseData = await reqUserInfo(
-      pageNo.value,
-      pageSize.value,
-      /* keyword.value, */
+    pageNo.value,
+    pageSize.value,
+    /* keyword.value, */
   )
   if (result.code == 200) {
     total.value = result.data.total
@@ -108,6 +143,18 @@ const getHasUser = async (pager = 1) => {
 //分页器下拉菜单的自定义事件的回调
 const handler = () => {
   getHasUser()
+}
+
+//添加用户按钮的回调
+const addUser = () => {
+  //抽屉显示出来
+  drawer.value = true;
+}
+//更新已有的用户按钮的回调
+//row:即为已有用户的账号信息
+const updateUser = (row: User) => {
+  //抽屉显示出来
+  drawer.value = true;
 }
 
 

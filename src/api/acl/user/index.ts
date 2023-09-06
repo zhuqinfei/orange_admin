@@ -7,7 +7,6 @@ enum API {
   ALLUSER_URL = '/admin/acl/user/',
 }
 
-
 //获取用户账号信息的接口
 export const reqUserInfo = (page: number, limit: number) => {
   return request.get<any, UserResponseData>(
