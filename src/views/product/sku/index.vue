@@ -37,7 +37,7 @@
       <el-table-column label="操作" width="300px" fixed="right">
         <template #="{ row, $index }">
           <el-button
-            type="primary"
+            type="success"
             size="small"
             :icon="row.isSale == 1 ? 'Bottom' : 'Top'"
             @click="updateSale(row)"
@@ -49,12 +49,16 @@
             @click="updateSku"
           ></el-button>
           <el-button
-            type="primary"
+            type="info"
             size="small"
             icon="InfoFilled"
             @click="findSku(row)"
           ></el-button>
-          <el-button type="primary" size="small" icon="Delete"></el-button>
+          <el-popconfirm :title="`你确定要删除${row.skuName}?`" width="200px" @confirm="removeSku(row.id)">
+            <template #reference>
+              <el-button type="danger" size="small" icon="Delete"></el-button>
+            </template>
+          </el-popconfirm>
         </template>
       </el-table-column>
     </el-table>
@@ -77,7 +81,7 @@
       <template #default>
         <el-row style="margin: 10px 0px">
           <el-col :span="6">名称</el-col>
-          <el-col :span="18">{{skuInfo.skuName}}</el-col>
+          <el-col :span="18">{{ skuInfo.skuName }}</el-col>
         </el-row>
         <el-row style="margin: 10px 0px">
           <el-col :span="6">描述</el-col>
@@ -90,21 +94,40 @@
         <el-row style="margin: 10px 0px">
           <el-col :span="6">平台属性</el-col>
           <el-col :span="18">
-            <el-tag style="margin: 5px" v-for="item in skuInfo.skuAttrValueList" :key="item.id">{{  item.valueName }}</el-tag>
+            <el-tag
+              style="margin: 5px"
+              v-for="item in skuInfo.skuAttrValueList"
+              :key="item.id"
+            >
+              {{ item.valueName }}
+            </el-tag>
           </el-col>
         </el-row>
         <el-row style="margin: 10px 0px">
           <el-col :span="6">销售属性</el-col>
           <el-col :span="18">
-            <el-tag style="margin: 5px" v-for="item in  skuInfo.skuSaleAttrValueList" :key="item.id">{{ item.saleAttrValueName }}</el-tag>
+            <el-tag
+              style="margin: 5px"
+              v-for="item in skuInfo.skuSaleAttrValueList"
+              :key="item.id"
+            >
+              {{ item.saleAttrValueName }}
+            </el-tag>
           </el-col>
         </el-row>
         <el-row style="margin: 10px 0px">
           <el-col :span="6">商品图片</el-col>
           <el-col :span="18">
             <el-carousel :interval="4000" type="card" height="200px">
-              <el-carousel-item v-for="item in skuInfo.skuImageList" :key="item.id">
-                <img :src="item.imgUrl" alt="" style="width:100%;height: 100%;">
+              <el-carousel-item
+                v-for="item in skuInfo.skuImageList"
+                :key="item.id"
+              >
+                <img
+                  :src="item.imgUrl"
+                  alt=""
+                  style="width: 100%; height: 100%"
+                />
               </el-carousel-item>
             </el-carousel>
           </el-col>
@@ -117,9 +140,19 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 //引入请求
-import { reqSkuList, reqCancelSale, reqSaleSku,reqSkuInfo } from '@/api/product/sku'
+import {
+  reqSkuList,
+  reqCancelSale,
+  reqSaleSku,
+  reqSkuInfo,
+  reqRemoveSku
+} from '@/api/product/sku'
 //引入ts类型
-import type { SkuResponseData, SkuData,SkuInfoData } from '@/api/product/sku/type'
+import type {
+  SkuResponseData,
+  SkuData,
+  SkuInfoData,
+} from '@/api/product/sku/type'
 import { ElMessage } from 'element-plus'
 //分页器当前页码
 let pageNo = ref<number>(1)
@@ -186,7 +219,20 @@ const findSku = async (row: SkuData) => {
   skuInfo.value = result.data
 }
 
-
+//删除某一个已有的商品
+const removeSku = async (id: number) => {
+  //删除某一个已有商品的情况
+  let result: any = await reqRemoveSku(id);
+  if (result.code == 200) {
+    //提示信息
+    ElMessage({ type: 'success', message: '删除成功' });
+    //获取已有全部商品
+    getHasSku(skuArr.value.length > 1 ? pageNo.value : pageNo.value - 1);
+  } else {
+    //删除失败
+    ElMessage({ type: 'error', message: '系统数据不能删除' });
+  }
+}
 </script>
 
 <style scoped lang="scss">

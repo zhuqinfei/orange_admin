@@ -1,6 +1,6 @@
 //SKU模块接口管理
 import request from '@/utils/request'
-import type { SkuResponseData,SkuInfoData } from './type'
+import type { SkuResponseData, SkuInfoData } from './type'
 //枚举地址
 enum API {
   //获取已有的商品的数据-SKU
@@ -11,6 +11,8 @@ enum API {
   CANCELSALE_URL = '/admin/product/cancelSale/',
   //获取商品详情的接口
   SKUINFO_URL = '/admin/product/getSkuInfo/',
+  //删除已有的商品
+  DELETESKU_URL = '/admin/product/deleteSku/',
 }
 //获取商品SKU的接口
 export const reqSkuList = (page: number, limit: number) => {
@@ -31,3 +33,8 @@ export const reqCancelSale = (skuId: number) => {
 export const reqSkuInfo = (skuId: number) => {
   return request.get<any, SkuInfoData>(API.SKUINFO_URL + skuId)
 }
+
+//删除某一个已有的商品
+export const reqRemoveSku = (skuId: number) =>
+  request.delete<any, any>(API.DELETESKU_URL + skuId)
+
