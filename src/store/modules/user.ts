@@ -31,7 +31,6 @@ const useUserStore = defineStore('User', {
     async userLogin(data: loginFormData) {
       //登录请求
       const result: loginResponseData = await reqLogin(data)
-      console.log(result)
       if (result.code == 200) {
         //pinia仓库存储token
         //由于pinia|vuex存储数据其实利用js对象

@@ -53,7 +53,7 @@
       ></el-table-column>
       <el-table-column label="操作" width="300px" align="center">
         <template #="{ row, $index }">
-          <el-button type="primary" size="small" icon="User">
+          <el-button type="primary" size="small" icon="User" @click="setRole(row)">
             分配角色
           </el-button>
           <el-button
@@ -90,7 +90,7 @@
   <el-drawer v-model="drawer">
     <!-- 头部标题:将来文字内容应该动态的 -->
     <template #header>
-      <h4>{{userParams.id ? '更新用户' : '添加用户'}}</h4>
+      <h4>{{ userParams.id ? '更新用户' : '添加用户' }}</h4>
     </template>
     <!-- 身体部分 -->
     <template #default>
@@ -122,6 +122,39 @@
       </div>
     </template>
   </el-drawer>
+  <el-drawer v-model="drawer1">
+    <template #header>
+      <h4>分配角色(职位)</h4>
+    </template>
+    <template #default>
+      <el-form>
+        <el-form-item label="用户姓名">
+          <el-input v-model="userParams.username" :disabled="true"></el-input>
+        </el-form-item>
+        <el-form-item label="职位列表">
+          <el-checkbox>
+            全选
+          </el-checkbox>
+          <!-- 显示职位的的复选框 -->
+          <el-checkbox-group>
+            <el-checkbox
+                v-for="(role, index) in 10"
+                :key="index"
+                :label="index"
+            >
+              {{ index }}
+            </el-checkbox>
+          </el-checkbox-group>
+        </el-form-item>
+      </el-form>
+    </template>
+    <template #footer>
+      <div style="flex: auto">
+        <el-button @click="drawer1 = false">取消</el-button>
+        <el-button type="primary" @click="confirmClick">确定</el-button>
+      </div>
+    </template>
+  </el-drawer>
 </template>
 
 <script setup lang="ts">
@@ -147,6 +180,8 @@ let userParams = reactive<User>({
 })
 //获取form组件实例
 let formRef = ref<any>()
+//控制分配角色抽屉显示与隐藏
+let drawer1 = ref<boolean>(false);
 
 onMounted(() => {
   getHasUser()
@@ -276,6 +311,17 @@ const rules = {
   //用户的密码
   password: [{ required: true, trigger: 'blur', validator: validatorPassword }],
 }
+
+//分配角色按钮的回调
+const setRole = async (row: User) => {
+    //抽屉显示出来
+    drawer1.value = true;
+  //存储已有的用户信息
+  Object.assign(userParams, row);
+
+}
+
+
 </script>
 
 <style scoped lang="scss"></style>
