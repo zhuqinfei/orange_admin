@@ -54,7 +54,11 @@
             icon="InfoFilled"
             @click="findSku(row)"
           ></el-button>
-          <el-popconfirm :title="`你确定要删除${row.skuName}?`" width="200px" @confirm="removeSku(row.id)">
+          <el-popconfirm
+            :title="`你确定要删除${row.skuName}?`"
+            width="200px"
+            @confirm="removeSku(row.id)"
+          >
             <template #reference>
               <el-button type="danger" size="small" icon="Delete"></el-button>
             </template>
@@ -145,7 +149,7 @@ import {
   reqCancelSale,
   reqSaleSku,
   reqSkuInfo,
-  reqRemoveSku
+  reqRemoveSku,
 } from '@/api/product/sku'
 //引入ts类型
 import type {
@@ -222,15 +226,15 @@ const findSku = async (row: SkuData) => {
 //删除某一个已有的商品
 const removeSku = async (id: number) => {
   //删除某一个已有商品的情况
-  let result: any = await reqRemoveSku(id);
+  let result: any = await reqRemoveSku(id)
   if (result.code == 200) {
     //提示信息
-    ElMessage({ type: 'success', message: '删除成功' });
+    ElMessage({ type: 'success', message: '删除成功' })
     //获取已有全部商品
-    getHasSku(skuArr.value.length > 1 ? pageNo.value : pageNo.value - 1);
+    getHasSku(skuArr.value.length > 1 ? pageNo.value : pageNo.value - 1)
   } else {
     //删除失败
-    ElMessage({ type: 'error', message: '系统数据不能删除' });
+    ElMessage({ type: 'error', message: '系统数据不能删除' })
   }
 }
 </script>
