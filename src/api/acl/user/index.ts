@@ -1,6 +1,6 @@
 //用户管理模块的接口
 import request from '@/utils/request'
-import type { UserResponseData, User } from './type'
+import type { UserResponseData, User,AllRoleResponseData } from './type'
 //枚举地址
 enum API {
   //获取全部已有用户账号信息
@@ -9,6 +9,8 @@ enum API {
   ADDUSER_URL = '/admin/acl/user/save',
   //更新已有的用户账号
   UPDATEUSER_URL = '/admin/acl/user/update',
+  //获取全部职位,当前账号拥有的职位接口
+  ALLROLEURL = '/admin/acl/user/toAssign/',
 }
 
 //获取用户账号信息的接口
@@ -27,3 +29,7 @@ export const reqAddOrUpdateUser = (data: User) => {
     return request.post<any, any>(API.ADDUSER_URL, data)
   }
 }
+
+//获取全部职位以及包含当前用户的已有的职位
+export const reqAllRole = (userId: number) =>
+  request.get<any, AllRoleResponseData>(API.ALLROLEURL + userId)
