@@ -24,4 +24,3 @@ export const reqSaleSku = (skuId: number) => {
 export const reqCancelSale = (skuId: number) => {
   return request.get<any, any>(API.CANCELSALE_URL + skuId)
 }
-
