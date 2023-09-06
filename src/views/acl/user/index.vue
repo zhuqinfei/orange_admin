@@ -3,10 +3,10 @@
   <el-card style="height: 80px">
     <el-form :inline="true" class="form">
       <el-form-item label="用户名:">
-        <el-input placeholder="请你输入搜索用户名"></el-input>
+        <el-input placeholder="请你输入搜索用户名" v-model="keyword"></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" size="default">搜索</el-button>
+        <el-button type="primary" size="default" :disabled="keyword ? false : true" @click="search">搜索</el-button>
         <el-button type="primary" size="default" @click="reset">重置</el-button>
       </el-form-item>
     </el-form>
@@ -15,9 +15,21 @@
     <el-button type="primary" size="default" @click="addUser">
       添加用户
     </el-button>
-    <el-button type="danger" size="default"  @click="deleteSelectUser" :disabled="selectIdArr.length ? false : true">批量删除</el-button>
+    <el-button
+      type="danger"
+      size="default"
+      @click="deleteSelectUser"
+      :disabled="selectIdArr.length ? false : true"
+    >
+      批量删除
+    </el-button>
     <!-- table展示用户信息 -->
-    <el-table  @selection-change="selectChange" style="margin: 10px 0px" border :data="userArr">
+    <el-table
+      @selection-change="selectChange"
+      style="margin: 10px 0px"
+      border
+      :data="userArr"
+    >
       <el-table-column type="selection" align="center"></el-table-column>
       <el-table-column label="#" align="center" type="index"></el-table-column>
       <el-table-column label="ID" align="center" prop="id"></el-table-column>
@@ -69,7 +81,11 @@
           >
             编辑
           </el-button>
-          <el-popconfirm :title="`你确定要删除${row.username}?`" width="260px" @confirm="deleteUser(row.id)">
+          <el-popconfirm
+            :title="`你确定要删除${row.username}?`"
+            width="260px"
+            @confirm="deleteUser(row.id)"
+          >
             <template #reference>
               <el-button type="primary" size="small" icon="Delete">
                 删除
@@ -170,6 +186,7 @@
 </template>
 
 <script setup lang="ts">
+import useLayOutSettingStore from '@/store/modules/setting'
 import { ref, onMounted, reactive, nextTick } from 'vue'
 import {
   reqUserInfo,
@@ -177,7 +194,7 @@ import {
   reqAllRole,
   reqSetUserRole,
   reqRemoveUser,
-  reqSelectUser
+  reqSelectUser,
 } from '@/api/acl/user'
 import type {
   UserResponseData,
@@ -213,7 +230,11 @@ let allRole = ref<AllRole>([])
 //当前用户已有的职位
 let userRole = ref<AllRole>([])
 //准备一个数组存储批量删除的用户的ID
-let selectIdArr = ref<User[]>([]);
+let selectIdArr = ref<User[]>([])
+//定义响应式数据:收集用户输入进来的关键字
+let keyword = ref<string>('');
+//获取模板setting仓库
+let settingStore = useLayOutSettingStore()
 
 onMounted(() => {
   getHasUser()
@@ -222,11 +243,7 @@ onMounted(() => {
 const getHasUser = async (pager = 1) => {
   //收集当前页码
   pageNo.value = pager
-  let result: UserResponseData = await reqUserInfo(
-    pageNo.value,
-    pageSize.value,
-    /* keyword.value, */
-  )
+  let result: UserResponseData = await reqUserInfo(pageNo.value,pageSize.value,keyword.value)
   if (result.code == 200) {
     total.value = result.data.total
     userArr.value = result.data.records
@@ -428,6 +445,20 @@ const deleteSelectUser = async () => {
     ElMessage({ type: 'success', message: '删除成功' })
     getHasUser(userArr.value.length > 1 ? pageNo.value : pageNo.value - 1)
   }
+}
+
+//搜索按钮的回调
+const search = () => {
+  //根据关键字获取相应的用户数据
+  getHasUser()
+  //清空关键字
+  keyword.value = ''
+}
+
+//重置按钮
+const reset = () => {
+  console.log(settingStore.refresh)
+  settingStore.refsh = !settingStore.refsh
 }
 
 </script>
