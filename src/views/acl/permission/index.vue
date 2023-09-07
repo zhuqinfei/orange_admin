@@ -30,15 +30,15 @@
             编辑
           </el-button>
           <el-popconfirm
-              :title="`你确定要删除${row.name}?`"
-              width="260px"
-              @confirm="removeMenu(row.id)"
+            :title="`你确定要删除${row.name}?`"
+            width="260px"
+            @confirm="removeMenu(row.id)"
           >
             <template #reference>
               <el-button
-                  type="primary"
-                  size="small"
-                  :disabled="row.level == 1 ? true : false"
+                type="primary"
+                size="small"
+                :disabled="row.level == 1 ? true : false"
               >
                 删除
               </el-button>
@@ -80,7 +80,11 @@
 <script setup lang="ts">
 import { ref, onMounted, reactive } from 'vue'
 //引入获取菜单请求API
-import { reqAllPermisstion, reqAddOrUpdateMenu,reqRemoveMenu } from '@/api/acl/menu'
+import {
+  reqAllPermisstion,
+  reqAddOrUpdateMenu,
+  reqRemoveMenu,
+} from '@/api/acl/menu'
 //引入ts类型
 import type {
   PermisstionResponseData,
