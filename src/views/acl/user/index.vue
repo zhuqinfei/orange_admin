@@ -468,7 +468,6 @@ const search = () => {
 
 //重置按钮
 const reset = () => {
-  console.log(settingStore.refresh)
   settingStore.refsh = !settingStore.refsh
 }
 </script>
