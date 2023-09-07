@@ -6,7 +6,14 @@
         <el-input placeholder="请你输入搜索用户名" v-model="keyword"></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" size="default" :disabled="keyword ? false : true" @click="search">搜索</el-button>
+        <el-button
+          type="primary"
+          size="default"
+          :disabled="keyword ? false : true"
+          @click="search"
+        >
+          搜索
+        </el-button>
         <el-button type="primary" size="default" @click="reset">重置</el-button>
       </el-form-item>
     </el-form>
@@ -232,7 +239,7 @@ let userRole = ref<AllRole>([])
 //准备一个数组存储批量删除的用户的ID
 let selectIdArr = ref<User[]>([])
 //定义响应式数据:收集用户输入进来的关键字
-let keyword = ref<string>('');
+let keyword = ref<string>('')
 //获取模板setting仓库
 let settingStore = useLayOutSettingStore()
 
@@ -243,7 +250,11 @@ onMounted(() => {
 const getHasUser = async (pager = 1) => {
   //收集当前页码
   pageNo.value = pager
-  let result: UserResponseData = await reqUserInfo(pageNo.value,pageSize.value,keyword.value)
+  let result: UserResponseData = await reqUserInfo(
+    pageNo.value,
+    pageSize.value,
+    keyword.value,
+  )
   if (result.code == 200) {
     total.value = result.data.total
     userArr.value = result.data.records
@@ -460,7 +471,6 @@ const reset = () => {
   console.log(settingStore.refresh)
   settingStore.refsh = !settingStore.refsh
 }
-
 </script>
 
 <style scoped lang="scss"></style>
