@@ -33,4 +33,3 @@ export interface MenuParams {
   name: string //菜单的名字
   pid: number //菜单的ID
 }
-
