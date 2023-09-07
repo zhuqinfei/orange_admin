@@ -227,6 +227,7 @@ const addRole = () => {
   //清空数据
   Object.assign(RoleParams, {
     roleName: '',
+    id: 0,
   })
   //清空上一次表单校验错误结果
   nextTick(() => {
