@@ -19,7 +19,6 @@ import router from '@/router/index'
 //引入仓库
 import pinia from './store'
 
-
 const app = createApp(App)
 //注册路由模板
 app.use(router)

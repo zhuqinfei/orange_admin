@@ -13,20 +13,32 @@
     @click="fullScreen"
   ></el-button>
 
-  <el-popover placement="bottom" title="主题设置" :width="300" trigger="hover">
+  <el-popover  placement="bottom" title="主题设置" :width="300" trigger="hover">
     <!-- 表单元素 -->
     <el-form>
       <el-form-item label="主题颜色">
-        <el-color-picker v-model="color" size="small" show-alpha :predefine="predefineColors" />
+        <el-color-picker
+          v-model="color"
+          size="small"
+          show-alpha
+          :predefine="predefineColors"
+          @change="setColor"
+        />
       </el-form-item>
       <el-form-item label="暗黑模式">
         <el-switch
-            @change="changeDark"
-            v-model="dark" class="mt-2"
-            inline-prompt
-            style="--el-switch-on-color: blue; --el-switch-off-color: green;margin-left: 24px"
-            active-icon="Moon"
-            inactive-icon="Sunny" />
+          @change="changeDark"
+          v-model="dark"
+          class="mt-2"
+          inline-prompt
+          style="
+            --el-switch-on-color: blue;
+            --el-switch-off-color: green;
+            margin-left: 24px;
+          "
+          active-icon="Moon"
+          inactive-icon="Sunny"
+        />
       </el-form-item>
     </el-form>
     <template #reference>
@@ -64,7 +76,7 @@ import useLayOutSettingStore from '@/store/modules/setting'
 let layoutSettingStore = useLayOutSettingStore()
 
 //收集开关的数据
-let dark = ref<boolean>(false);
+let dark = ref<boolean>(false)
 
 let userStore = useUserStore()
 
@@ -124,12 +136,17 @@ const predefineColors = ref([
 //switch开关的chang事件进行暗黑模式的切换
 const changeDark = () => {
   //获取HTML根节点
-  let html = document.documentElement;
+  let html = document.documentElement
   //判断HTML标签是否有类名dark
-  dark.value ? html.className = 'dark' : html.className = '';
+  dark.value ? (html.className = 'dark') : (html.className = '')
 }
 
-
+//主题颜色的设置
+const setColor = () => {
+  //通知js修改根节点的样式对象的属性与属性值
+  const html = document.documentElement
+  html.style.setProperty('--el-color-primary', color.value)
+}
 
 </script>
 
