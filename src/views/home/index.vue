@@ -5,7 +5,9 @@
       <div class="box">
         <img :src="userStore.avatar" alt="" class="avatar" />
         <div class="bottom">
-          <h3 class="title">{{ getTime() }}好呀！-- {{ userStore.username }}</h3>
+          <h3 class="title">
+            {{ getTime() }}好呀！-- {{ userStore.username }}
+          </h3>
           <p class="subtitle">橙子运营平台</p>
         </div>
       </div>

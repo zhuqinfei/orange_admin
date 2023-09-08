@@ -27,12 +27,12 @@ export default {
   height: 100%;
   display: flex;
   justify-content: space-between;
-  background-image: linear-gradient(
-    to right,
-    rgb(236, 229, 229),
-    rgb(151, 136, 136),
-    rgb(240, 234, 234)
-  );
+  //background-image: linear-gradient(
+  //  to right,
+  //  rgb(236, 229, 229),
+  //  rgb(151, 136, 136),
+  //  rgb(240, 234, 234)
+  //);
   .tabbar_left {
     display: flex;
     align-items: center;

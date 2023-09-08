@@ -1,7 +1,6 @@
 // noinspection TypeScriptCheckImport
 
 import { createApp } from 'vue'
-import './style.css'
 import App from '@/App.vue'
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
@@ -13,10 +12,13 @@ import gloalComponent from '@/components'
 import 'virtual:svg-icons-register'
 //引入模板的全局样式
 import '@/styles/index.scss'
+//暗黑模式需要的样式
+import 'element-plus/theme-chalk/dark/css-vars.css'
 //引入路由
 import router from '@/router/index'
 //引入仓库
 import pinia from './store'
+
 
 const app = createApp(App)
 //注册路由模板
