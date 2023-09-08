@@ -13,7 +13,7 @@
     @click="fullScreen"
   ></el-button>
 
-  <el-popover  placement="bottom" title="主题设置" :width="300" trigger="hover">
+  <el-popover placement="bottom" title="主题设置" :width="300" trigger="hover">
     <!-- 表单元素 -->
     <el-form>
       <el-form-item label="主题颜色">
@@ -147,7 +147,6 @@ const setColor = () => {
   const html = document.documentElement
   html.style.setProperty('--el-color-primary', color.value)
 }
-
 </script>
 
 <script lang="ts">
