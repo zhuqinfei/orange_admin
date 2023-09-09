@@ -14,14 +14,13 @@
   </div>
 </template>
 
-
 <script setup lang="ts">
-import moment from 'moment';
+import moment from 'moment'
 //点击首页按钮回到首页
-import { useRouter } from 'vue-router';
-import { ref, onMounted,onBeforeUnmount} from 'vue';
+import { useRouter } from 'vue-router'
+import { ref, onMounted, onBeforeUnmount } from 'vue'
 //获取路由器对象
-let $router = useRouter();
+let $router = useRouter()
 let timer = ref(0)
 
 //按钮的点击回调
@@ -40,7 +39,6 @@ onMounted(() => {
 onBeforeUnmount(() => {
   clearInterval(timer.value)
 })
-
 </script>
 
 <style scoped lang="scss">
@@ -103,6 +101,4 @@ onBeforeUnmount(() => {
     }
   }
 }
-
-
 </style>
