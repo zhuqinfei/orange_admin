@@ -1,29 +1,33 @@
 <!--suppress ALL -->
 <template>
-    <div class="box">
-      <div class="top">
-        <p class="title">实时游客统计</p>
-        <p class="bg"></p>
-        <p class="right">可预约总量<span>99999</span>人</p>
-      </div>
-      <div class="number">
-        <span v-for="(item, index) in people" :key="index">{{ item }}</span>
-      </div>
-      <!-- 盒子将来echarts展示图形图标的节点 -->
-      <div class="charts" ref="charts">123</div>
+  <div class="box">
+    <div class="top">
+      <p class="title">实时游客统计</p>
+      <p class="bg"></p>
+      <p class="right">
+        可预约总量
+        <span>99999</span>
+        人
+      </p>
     </div>
+    <div class="number">
+      <span v-for="(item, index) in people" :key="index">{{ item }}</span>
+    </div>
+    <!-- 盒子将来echarts展示图形图标的节点 -->
+    <div class="charts" ref="charts">123</div>
+  </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, onMounted } from 'vue'
 import 'echarts-liquidfill'
-import * as echarts from 'echarts';
-let people = ref('215908人');
+import * as echarts from 'echarts'
+let people = ref('215908人')
 
 //获取节点
-let charts = ref();
+let charts = ref()
 
-onMounted(()=>{
+onMounted(() => {
   let mycharts = echarts.init(charts.value)
   mycharts.setOption({
     //标题组件
@@ -66,9 +70,6 @@ onMounted(()=>{
     },
   })
 })
-
-
-
 </script>
 
 <style scoped lang="scss">
@@ -83,8 +84,7 @@ onMounted(()=>{
     .title {
       color: white;
       font-size: 20px;
-      margin-top:10px;
-
+      margin-top: 10px;
     }
 
     .bg {
@@ -110,7 +110,6 @@ onMounted(()=>{
     padding: 10px;
     margin-top: 30px;
     display: flex;
-
 
     span {
       flex: 1;
