@@ -3,10 +3,10 @@
   <div class="box6">
     <div class="title">
       <p>热门景区排行</p>
-      <img src="../../images/dataScreen-title.png" alt="">
+      <img src="../../images/dataScreen-title.png" alt="" />
     </div>
     <!-- 图形图标的容器 -->
-    <div class="charts" ref='charts'></div>
+    <div class="charts" ref="charts"></div>
   </div>
 </template>
 
@@ -19,13 +19,19 @@ let charts = ref()
 onMounted(() => {
   let mychart = echarts.init(charts.value)
 
-  let colorList = ['rgba(255, 174, 0, 1)', 'rgba(183, 206, 255, 1)', 'rgba(226, 134, 88, 1)','#2379FF', '#2379FF']
+  let colorList = [
+    'rgba(255, 174, 0, 1)',
+    'rgba(183, 206, 255, 1)',
+    'rgba(226, 134, 88, 1)',
+    '#2379FF',
+    '#2379FF',
+  ]
   let result = [
-    {name:'北京故宫',value:55},
-    {name:'万里长城',value:53},
-    {name:'稻城亚丁',value:48},
-    {name:'九寨沟',value:45},
-    {name:'布达拉宫',value:30},
+    { name: '北京故宫', value: 55 },
+    { name: '万里长城', value: 53 },
+    { name: '稻城亚丁', value: 48 },
+    { name: '九寨沟', value: 45 },
+    { name: '布达拉宫', value: 30 },
   ]
 
   let option = {
@@ -38,10 +44,10 @@ onMounted(() => {
       //主标题文字样式
       textStyle: {
         color: 'yellowgreen',
-        fontSize: 20
+        fontSize: 20,
       },
     },
-    color:colorList,
+    color: colorList,
     tooltip: {
       show: true,
       trigger: 'item',
@@ -49,7 +55,7 @@ onMounted(() => {
       backgroundColor: 'rgba(12, 51, 115,0.8)',
       borderColor: 'rgba(3, 11, 44, 0.5)',
       textStyle: {
-        color: 'rgba(255, 255, 255, 1)'
+        color: 'rgba(255, 255, 255, 1)',
       },
     },
     legend: {
@@ -83,17 +89,17 @@ onMounted(() => {
           show: false,
         },
         inverse: true,
-        data: result.map((item)=>item.name),
+        data: result.map((item) => item.name),
         axisLabel: {
           color: '#fff',
           fontSize: 14,
           margin: 10,
           formatter: (name, index) => {
-            const id = index + 1;
+            const id = index + 1
             if (id < 4) {
-              return `{icon${id}|${id}}`;
+              return `{icon${id}|${id}}`
             } else {
-              return `{count|${id}}`;
+              return `{count|${id}}`
             }
           },
           rich: {
@@ -132,7 +138,7 @@ onMounted(() => {
               backgroundColor: '#2379FF',
               color: '#ffffff',
               fontSize: 20,
-            }
+            },
           },
         },
       },
@@ -148,10 +154,10 @@ onMounted(() => {
             fontSize: 12,
           },
           formatter: function (value) {
-            return value + 'W';
+            return value + 'W'
           },
         },
-        data: result.map((item)=>item.value),
+        data: result.map((item) => item.value),
       },
     ],
     series: [
@@ -163,7 +169,7 @@ onMounted(() => {
         showBackground: true,
         barBorderRadius: [30, 0, 0, 30],
         backgroundStyle: {
-          color:'#194B72',
+          color: '#194B72',
         },
         label: {
           show: true,
@@ -173,17 +179,17 @@ onMounted(() => {
           position: 'left',
           align: 'left',
           formatter: function (params) {
-            return params.data.name;
-          }
+            return params.data.name
+          },
         },
-        data: result.map((item,index)=>{
-          return{
-            name:item.name,
-            value:item.value,
-            itemStyle:{
+        data: result.map((item, index) => {
+          return {
+            name: item.name,
+            value: item.value,
+            itemStyle: {
               barBorderRadius: [30, 0, 0, 30],
-              color:{
-                type: "linear",
+              color: {
+                type: 'linear',
                 x: 0,
                 y: 0,
                 x2: 1,
@@ -191,20 +197,20 @@ onMounted(() => {
                 colorStops: [
                   {
                     offset: 0,
-                    color: "#0F1F45",
+                    color: '#0F1F45',
                   },
                   {
                     offset: 1,
                     color: colorList[index],
                   },
                 ],
-              }
-            }
+              },
+            },
           }
         }),
       },
     ],
-  };
+  }
 
   mychart.setOption(option)
 })
@@ -219,7 +225,7 @@ onMounted(() => {
   margin: 20px 0px;
 
   .title {
-    margin-left: 5px;
+    margin-left: 15px;
 
     p {
       color: white;

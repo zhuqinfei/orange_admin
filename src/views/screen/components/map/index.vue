@@ -28,8 +28,8 @@ onMounted(() => {
     geo: {
       map: 'china',
       roam: true, // 是否开启放大缩小/拖拽功能
-      zoom: 1, // 缩放比列
-      layoutCenter: ['50%', '60%'], // 地图中心点位置
+      zoom: 1.2, // 缩放比列
+      layoutCenter: ['50%', '70%'], // 地图中心点位置
       layoutSize: '100%',
       label: {
         show: true,

@@ -38,8 +38,8 @@ import Map from './components/map/index.vue'
 import Line from './components/line/index.vue'
 
 //引入右侧三个子组件
-import Rank from './components/rank/index.vue';
-import Year from './components/year/index.vue';
+import Rank from './components/rank/index.vue'
+import Year from './components/year/index.vue'
 import Counter from './components/couter/index.vue'
 
 //获取数据大屏展示内容盒子的DOM元素
@@ -85,19 +85,16 @@ window.onresize = () => {
         flex: 1;
         display: flex;
         flex-direction: column;
-        margin-left: 40px;
         .rank {
           flex: 1;
         }
 
         .year {
           flex: 1;
-          background-color: red;
         }
 
         .count {
           flex: 1;
-          background-color: blueviolet;
         }
       }
       .left {
@@ -118,9 +115,10 @@ window.onresize = () => {
         }
       }
       .center {
-        flex: 1.6;
+        flex: 1.8;
         display: flex;
         flex-direction: column;
+        margin:0 20px;
         .map {
           flex: 3;
         }

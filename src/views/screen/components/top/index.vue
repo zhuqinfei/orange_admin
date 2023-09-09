@@ -92,6 +92,7 @@ onBeforeUnmount(() => {
       background-size: 100% 100%;
       text-align: center;
       line-height: 40px;
+      font-size: 20px;
       color: #29fcff;
     }
 
