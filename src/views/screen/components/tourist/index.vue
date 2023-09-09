@@ -84,7 +84,6 @@ onMounted(() => {
     .title {
       color: white;
       font-size: 20px;
-      margin-top: 10px;
     }
 
     .bg {
@@ -92,7 +91,7 @@ onMounted(() => {
       height: 7px;
       background: url(../../images/dataScreen-title.png) no-repeat;
       background-size: 100% 100%;
-      margin-top: 20px;
+      margin-top: 10px;
     }
 
     .right {
@@ -123,7 +122,7 @@ onMounted(() => {
   }
   .charts {
     width: 100%;
-    height: 270px;
+    height: 220px;
   }
 }
 </style>
