@@ -30,8 +30,8 @@ import Sex from './components/sex/index.vue'
 import Age from './components/age/index.vue'
 
 //引入中间两个子组件
-import Map from './components/map/index.vue';
-import Line from './components/line/index.vue';
+import Map from './components/map/index.vue'
+import Line from './components/line/index.vue'
 
 //获取数据大屏展示内容盒子的DOM元素
 let screen = ref()
@@ -100,7 +100,7 @@ window.onresize = () => {
         display: flex;
         flex-direction: column;
         .map {
-          flex: 4;
+          flex: 3;
         }
 
         .line {

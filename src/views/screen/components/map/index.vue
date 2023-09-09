@@ -1,23 +1,22 @@
 <!--suppress ALL -->
 <template>
-  <div class="box4" ref="map">
-    我是地图组件
-  </div>
+  <div class="box4" ref="map">我是地图组件</div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
-import * as echarts from 'echarts';
+import { ref, onMounted } from 'vue'
+import * as echarts from 'echarts'
 //引入中国地图的JSON数据
 import chinaJSON from './china.json'
 //获取DOM元素
-let map = ref();
+let map = ref()
 //注册中国地图
 echarts.registerMap('china', chinaJSON as any)
 onMounted(() => {
-  let mychart = echarts.init(map.value);
+  let mychart = echarts.init(map.value)
 
-  const planePath = 'path://M1705.06,1318.313v-89.254l-319.9-221.799l0.073-208.063c0.521-84.662-26.629-121.796-63.961-121.491c-37.332-0.305-64.482,36.829-63.961,121.491l0.073,208.063l-319.9,221.799v89.254l330.343-157.288l12.238,241.308l-134.449,92.931l0.531,42.034l175.125-42.917l175.125,42.917l0.531-42.034l-134.449-92.931l12.238-241.308L1705.06,1318.313z';
+  const planePath =
+    'path://M1705.06,1318.313v-89.254l-319.9-221.799l0.073-208.063c0.521-84.662-26.629-121.796-63.961-121.491c-37.332-0.305-64.482,36.829-63.961,121.491l0.073,208.063l-319.9,221.799v89.254l330.343-157.288l12.238,241.308l-134.449,92.931l0.531,42.034l175.125-42.917l175.125,42.917l0.531-42.034l-134.449-92.931l12.238-241.308L1705.06,1318.313z'
   const points = [
     { value: [116.405285, 39.904989], itemStyle: { color: '#FFFA00' } },
     { value: [113.54909, 22.198951], itemStyle: { color: '#00EEFF' } },
@@ -34,52 +33,55 @@ onMounted(() => {
       layoutSize: '100%',
       label: {
         show: true,
-        color: '#fff'
+        color: '#fff',
       },
       itemStyle: {
         areaColor: '#12235c',
         borderColor: '#2ab8ff',
-        borderWidth: .5,
+        borderWidth: 0.5,
         shadowColor: 'rgba(0,54,255, 0.4)',
-        shadowBlur: 100
+        shadowBlur: 100,
       },
-      emphasis: { //区域激活时的样式
+      emphasis: {
+        //区域激活时的样式
         itemStyle: {
           areaColor: '#02102b',
         },
         label: {
-          color: "#fff"
-        }
-      }
+          color: '#fff',
+        },
+      },
     },
-    series: [ // 添加迁移线数据
+    series: [
+      // 添加迁移线数据
       {
         type: 'lines',
-        data: [ // 配置多个点的数据
+        data: [
+          // 配置多个点的数据
           {
             coords: [
               [116.405285, 39.904989],
               [113.54909, 22.198951],
-            ]
+            ],
           },
           {
             coords: [
               [116.405285, 39.904989],
               [91.132212, 29.660361],
-            ]
+            ],
           },
           {
             coords: [
               [116.405285, 39.904989],
-              [126.642464, 45.756967]
-            ]
+              [126.642464, 45.756967],
+            ],
           },
           {
             coords: [
               [116.405285, 39.904989],
-              [87.617733, 43.792818]
-            ]
-          }
+              [87.617733, 43.792818],
+            ],
+          },
         ],
         effect: {
           show: true,
@@ -91,13 +93,14 @@ onMounted(() => {
           symbolSize: 15, //图标大小
         },
         lineStyle: {
-          color:'#00eaff',
+          color: '#00eaff',
           width: 1, //尾迹线条宽度
-          opacity:.7, //尾迹线条透明度
-          curveness: .3, //尾迹线条曲直度
+          opacity: 0.7, //尾迹线条透明度
+          curveness: 0.3, //尾迹线条曲直度
         },
       },
-      { // 带有涟漪特效动画的散点（气泡）图
+      {
+        // 带有涟漪特效动画的散点（气泡）图
         type: 'effectScatter',
         coordinateSystem: 'geo',
         showEffectOn: 'render',
@@ -112,17 +115,10 @@ onMounted(() => {
         data: points,
       },
     ],
+  }
 
-  };
-
-
-  mychart.setOption(option);
+  mychart.setOption(option)
 })
-
-
-
 </script>
 
-<style scoped lang="scss">
-
-</style>
+<style scoped lang="scss"></style>
